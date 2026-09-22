@@ -1,0 +1,253 @@
+{
+  "brand": "plainlysmart",
+  "meta": {
+    "title": "Plainlysmart - Custom Software, Web & Mobile Apps for Your Business",
+    "description": "Software built around your business. Websites, web and mobile apps, automation and AI tools. Free consultation. First working prototype in approximately two weeks."
+  },
+  "nav": {
+    "toggleTheme": "Toggle color theme",
+    "lightTheme": "Switch to light mode",
+    "darkTheme": "Switch to dark mode",
+    "build": "What we build",
+    "process": "How it works",
+    "why": "Why Plainlysmart",
+    "contact": "Contact",
+    "cta": "Free consultation",
+    "open": "Open navigation",
+    "close": "Close navigation",
+    "label": "Main navigation",
+    "language": "Language",
+    "en": "EN",
+    "cs": "CS",
+    "skip": "Skip to content"
+  },
+  "hero": {
+    "eyebrow": "YOUR BUSINESS. YOUR SOFTWARE.",
+    "title": "Big ideas.",
+    "title2": "Less busywork.",
+    "title3": "Better software.",
+    "description": "We design and build websites, web, mobile and desktop apps. Internal tools, automation and AI software — built around your business.",
+    "cta": "Book a free consultation",
+    "secondary": "See what we can build",
+    "proof": "First working prototype in ~2 weeks",
+    "note": "Start small. No in-house team needed.",
+    "visualLabel": "From scattered tasks to a connected business workflow",
+    "visualTop": "A SIMPLER WAY TO WORK",
+    "input1": "Spreadsheets",
+    "input2": "Daily admin",
+    "input3": "Disconnected tools",
+    "engine": "Made for your business",
+    "output": "Everything. Working together.",
+    "live": "Connected",
+    "order": "New order received",
+    "invoice": "Invoice created",
+    "customer": "Customer updated",
+    "done": "Automatically",
+    "saved": "Less admin. More possibility.",
+    "visualBottom": "YOUR WORKFLOW, REIMAGINED",
+    "availability": "Accepting last {count} clients"
+  },
+  "strip": {
+    "intro": "A smaller team. A bigger possibility.",
+    "items": ["Senior engineering", "AI-assisted development", "Built around you", "Yours to grow"]
+  },
+  "build": {
+    "eyebrow": "WHAT WE BUILD",
+    "title": "If you can imagine it,",
+    "accent": "we can build it.",
+    "description": "Web, desktop or mobile. Everything under one roof.",
+    "items": [
+      {
+        "title": "Websites",
+        "description": "Make a great first impression. Turn more visitors into customers.",
+        "tag": "Your best digital front door"
+      },
+      {
+        "title": "Web applications",
+        "description": "Customer portals, SaaS products and internal business tools that make work simpler.",
+        "tag": "Built for the way you work"
+      },
+      {
+        "title": "Mobile apps",
+        "description": "Put your business in your customers’ hands. Or empower your team on the go.",
+        "tag": "Good ideas, on the move"
+      },
+      {
+        "title": "Automation",
+        "description": "Give repetitive tasks to software. Give your people their time back.",
+        "tag": "Less clicking. More doing."
+      },
+      {
+        "title": "AI solutions",
+        "description": "Turn documents into data, find answers faster and make everyday work easier.",
+        "tag": "Practical intelligence"
+      },
+      {
+        "title": "Desktop applications",
+        "description": "Software for Windows, macOS and Linux. Connected to your tools, with offline work in mind.",
+        "tag": "Power at your desk"
+      }
+    ],
+    "other": "Something else in mind?",
+    "otherLink": "If software can solve it, let’s talk."
+  },
+  "automation": {
+    "eyebrow": "LESS REPETITION. MORE AMBITION.",
+    "title": "Let AI do the boring work.",
+    "accent": "You do the important work.",
+    "description": "Your best people shouldn’t spend their day moving data around. We build practical tools that quietly take care of the routine - and leave you room to focus.",
+    "link": "Let’s simplify your workday",
+    "before": "THE OLD ROUTINE",
+    "after": "YOUR NEW NORMAL",
+    "rows": [
+      {
+        "before": "Copy data between spreadsheets",
+        "after": "Information flows automatically"
+      },
+      {
+        "before": "Read and sort every document",
+        "after": "AI extracts what you need"
+      },
+      {
+        "before": "Answer the same questions",
+        "after": "Customers find answers instantly"
+      },
+      {
+        "before": "Spend Friday building reports",
+        "after": "Your dashboard is already ready"
+      }
+    ],
+    "foot": "Less busywork for your team. More value for your business."
+  },
+  "now": {
+    "eyebrow": "A NEW WAY TO BUILD",
+    "title": "Custom software.\nNow within reach.",
+    "description": "AI has changed the economics of building software. We combine its speed with senior engineering judgment - making custom solutions accessible to businesses without a development team.",
+    "items": [
+      {
+        "title": "Faster to useful",
+        "description": "Less time on repetitive code. More momentum, with an initial prototype in approximately two weeks."
+      },
+      {
+        "title": "A smarter investment",
+        "description": "Start with what matters most. Lower implementation effort means your budget goes further."
+      },
+      {
+        "title": "Quality by design",
+        "description": "Experienced people own the architecture, security, testing and details. AI assists. Engineers decide."
+      }
+    ]
+  },
+  "process": {
+    "guarantee": "Money-back guarantee",
+    "eyebrow": "HOW IT WORKS",
+    "title": "From “what if” to working.",
+    "description": "You bring the business problem. We’ll bring the technical know-how.",
+    "items": [
+      {
+        "title": "Let’s talk",
+        "description": "A free conversation about your goals, your challenges and what could work better.",
+        "tag": "Free. No pressure."
+      },
+      {
+        "title": "Make it tangible",
+        "description": "We agree on a small, useful scope and build your first working prototype.",
+        "tag": "Around 2 weeks*"
+      },
+      {
+        "title": "Try it. Improve it.",
+        "description": "Put it in real hands. We listen, learn and refine it around actual feedback.",
+        "tag": "Built together"
+      },
+      {
+        "title": "Grow from there",
+        "description": "Add features, connect more tools and keep improving as your business grows.",
+        "tag": "At your pace"
+      }
+    ],
+    "note": "No technical specification needed. Just tell us what you want to make easier.",
+    "timing": "*Prototype timing depends on the agreed scope. A full product may take longer."
+  },
+  "problems": {
+    "eyebrow": "SOUND FAMILIAR?",
+    "title": "There’s a better way\nto do that.",
+    "description": "You don’t need to know what software you need. Knowing what isn’t working is a great start.",
+    "items": [
+      {
+        "question": "“Our whole business runs on a maze of spreadsheets.”",
+        "answer": "One clear system built around your process. Shared information, fewer errors and no searching for the latest file."
+      },
+      {
+        "question": "“Our team copies orders from emails all day.”",
+        "answer": "A workflow that extracts order details, checks them and sends them to the right system - with your team in control of exceptions."
+      },
+      {
+        "question": "“Customers have to call us for every update.”",
+        "answer": "A simple customer portal with live status updates, useful documents and answers in one place."
+      },
+      {
+        "question": "“Our tools don’t talk to each other.”",
+        "answer": "Reliable integrations that keep customer, order and business data in sync across the tools you already use."
+      },
+      {
+        "question": "“We have a product idea. But no development team.”",
+        "answer": "A senior engineering partner to help shape your idea, build a useful first version and improve it with real customer feedback."
+      }
+    ]
+  },
+  "why": {
+    "eyebrow": "WHY PLAINLYSMART",
+    "title": "A partner in your corner.\nNot another layer of complexity.",
+    "description": "Straight answers. Thoughtful engineering. Software that earns its place in your business.",
+    "items": [
+      {
+        "title": "Direct by design",
+        "description": "Talk to the people building your software. Clear communication, shared decisions and no unnecessary handoffs."
+      },
+      {
+        "title": "Senior minds. Modern tools.",
+        "description": "Experienced engineering, accelerated by AI. Pragmatic decisions and the right tools for your problem."
+      },
+      {
+        "title": "The whole picture, handled",
+        "description": "From the first sketch to launch and beyond. Interfaces, data, integrations and infrastructure, all taken care of."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "LET’S MAKE SOMETHING USEFUL",
+    "title": "What could software\nmake easier for you?",
+    "description": "An idea, a bottleneck, a better way of working. It all starts with a conversation.",
+    "cta": "Book a free consultation",
+    "note": "No pitch deck needed. No obligation. Just possibilities.",
+    "email": "hello@plainlysmart.com",
+    "dialogTitle": "Tell us what’s on your mind.",
+    "dialogDescription": "Share a little about your problem. We’ll get back to you to arrange a free consultation.",
+    "emailLabel": "Your email",
+    "message": "What would you like to build or improve?",
+    "submit": "Send message",
+    "close": "Close consultation form",
+    "subject": "Free consultation",
+    "emailBody": "Email: {email}\nPhone: {phone}\n\n{message}",
+    "sent": "Thank you! Your message has been sent. We’ll be in touch soon.",
+    "phone": "Phone number (optional)",
+    "alternative": "Prefer email?",
+    "name": "Your name",
+    "company": "Company (optional)",
+    "validation": {
+      "required": "This field is required.",
+      "email": "Enter a valid email address.",
+      "maxLength": "Use no more than {max} characters."
+    },
+    "marketingConsent": "I would like to receive PlainlySmart news by email (optional).",
+    "submitting": "Sending…",
+    "error": "We couldn’t complete your submission. Please try again or email us directly.",
+    "unavailable": "The form is currently unavailable. Please email us directly.",
+    "bookingCta": "Book a free consultation"
+  },
+  "footer": {
+    "tagline": "Good software. Less friction.",
+    "copyright": "© {year} Plainlysmart. Built for what’s next.",
+    "back": "Back to top"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "plainlysmart",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "serve out",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "private": true,
+  "dependencies": {
+    "@hookform/resolvers": "^5.9.1",
+    "lucide-react": "^1.47.0",
+    "motion": "^13.4.0",
+    "next": "^16.3.5",
+    "next-intl": "^4.14.5",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-hook-form": "^7.88.0",
+    "react-icons": "^5.7.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^10.11.0",
+    "eslint-config-next": "^16.3.5",
+    "serve": "^14.2.6",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2"
+  }
+}

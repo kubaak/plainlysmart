@@ -1,0 +1,258 @@
+{
+  "brand": "plainlysmart",
+  "meta": {
+    "title": "Plainlysmart - Custom software, web & mobile apps pro vaše podnikání",
+    "description": "Software postavený kolem vašeho podnikání. Weby, webové a mobile apps, automation a AI tools. Konzultace zdarma. První funkční prototypu přibližně za dva týdny."
+  },
+  "nav": {
+    "toggleTheme": "Změnit barevný motiv",
+    "lightTheme": "Přepnout na světlý motiv",
+    "darkTheme": "Přepnout na tmavý motiv",
+    "build": "Co stavíme",
+    "process": "Jak to funguje",
+    "why": "Proč Plainlysmart",
+    "contact": "Kontakt",
+    "cta": "Konzultace zdarma",
+    "open": "Otevřít navigaci",
+    "close": "Zavřít navigaci",
+    "label": "Hlavní navigace",
+    "language": "Jazyk",
+    "en": "EN",
+    "cs": "CS",
+    "skip": "Přejít na obsah"
+  },
+  "hero": {
+    "eyebrow": "VAŠE PODNIKÁNÍ. VÁŠ SOFTWARE.",
+    "title": "Velké nápady.",
+    "title2": "Méně rutiny.",
+    "title3": "Lepší software.",
+    "description": "Navrhujeme a vyvíjíme weby, webové, mobilní i desktopové aplikace. Propojíme vaše nástroje, zautomatizujeme rutinu a zapojíme AI tam, kde pomůže.",
+    "cta": "Domluvit konzultaci zdarma",
+    "secondary": "Podívejte se, co můžeme postavit",
+    "proof": "První funkční prototyp za ~2 týdny",
+    "note": "Začněte v malém. Vlastní vývojový tým nepotřebujete.",
+    "visualLabel": "Od roztříštěných úkolů k propojenému business workflow",
+    "visualTop": "JEDNODUŠŠÍ ZPŮSOB PRÁCE",
+    "input1": "Excelová tabulka",
+    "input2": "Každodenní administrativa",
+    "input3": "Nepropojené nástroje",
+    "engine": "Vytvořeno pro vaše podnikání",
+    "output": "Všechno. Funguje společně.",
+    "live": "Propojeno",
+    "order": "Přijata nová objednávka",
+    "invoice": "Faktura vytvořena",
+    "customer": "Zákazník aktualizován",
+    "done": "Automaticky",
+    "saved": "Méně administrativy. Více možností.",
+    "visualBottom": "VÁŠ WORKFLOW, NOVĚ",
+    "availability": "Přijímáme poslední {count} klienty"
+  },
+  "strip": {
+    "intro": "Menší tým. Větší možnosti.",
+    "items": [
+      "Senior engineering",
+      "AI-assisted development",
+      "Postavené kolem vás",
+      "Připravené růst s vámi"
+    ]
+  },
+  "build": {
+    "eyebrow": "CO STAVÍME",
+    "title": "Pokud si to dokážete představit,",
+    "accent": "dokážeme to postavit.",
+    "description": "Web, desktop nebo mobilní aplikace. Vše pod jednou střechou.",
+    "items": [
+      {
+        "title": "Webové stránky",
+        "description": "Udělejte skvělý první dojem. Proměňte více návštěvníků v zákazníky.",
+        "tag": "Vaše nejlepší digitální výloha"
+      },
+      {
+        "title": "Webové aplikace",
+        "description": "Zákaznické portály, SaaS produkty a interní firemní nástroje, které zjednoduší každodenní práci.",
+        "tag": "Postavené podle toho, jak pracujete"
+      },
+      {
+        "title": "Mobilní aplikace",
+        "description": "Dejte své podnikání zákazníkům přímo do ruky. Nebo umožněte svému týmu pracovat odkudkoli.",
+        "tag": "Dobré nápady na cestách"
+      },
+      {
+        "title": "Automatizace",
+        "description": "Přenechte opakující se úkoly softwaru. Vraťte svým lidem jejich čas.",
+        "tag": "Méně klikání. Více práce, která má smysl."
+      },
+      {
+        "title": "AI řešení",
+        "description": "Proměňte dokumenty v data, najděte odpovědi rychleji a zjednodušte každodenní práci.",
+        "tag": "AI, která má smysl"
+      },
+      {
+        "title": "Desktopové aplikace",
+        "description": "Software pro Windows, macOS i Linux. Propojený s vašimi nástroji a připravený pracovat i offline.",
+        "tag": "Výkon přímo na vašem počítači"
+      }
+    ],
+    "other": "Máte na mysli něco jiného?",
+    "otherLink": "Pokud to dokáže vyřešit software, pojďme si promluvit."
+  },
+  "automation": {
+    "eyebrow": "MÉNĚ OPAKOVÁNÍ. VÍCE AMBICÍ.",
+    "title": "Nechte AI dělat nudnou práci.",
+    "accent": "Vy se věnujte tomu důležitému.",
+    "description": "Vaši nejlepší lidé by neměli trávit den přesouváním dat. Stavíme praktické tools, které se tiše postarají o rutinu - a vám nechají prostor soustředit se na to podstatné.",
+    "link": "Pojďme vám zjednodušit pracovní den",
+    "before": "STARÁ RUTINA",
+    "after": "VÁŠ NOVÝ STANDARD",
+    "rows": [
+      {
+        "before": "Kopírování dat mezi excelovými tabulkami",
+        "after": "Informace proudí automaticky"
+      },
+      {
+        "before": "Ruční čtení a třídění každého dokumentu",
+        "after": "AI vytáhne přesně to, co potřebujete"
+      },
+      {
+        "before": "Odpovídání stále na stejné otázky",
+        "after": "Zákazníci najdou odpovědi okamžitě"
+      },
+      {
+        "before": "Pátek strávený tvorbou reportů",
+        "after": "Váš dashboard je už připravený"
+      }
+    ],
+    "foot": "Méně rutinní práce pro váš tým. Více hodnoty pro vaše podnikání."
+  },
+  "now": {
+    "eyebrow": "NOVÝ ZPŮSOB VÝVOJE",
+    "title": "Custom software.\nTeď na dosah.",
+    "description": "AI změnila ekonomiku vývoje softwaru. Její rychlost kombinujeme se zkušenostmi a úsudkem seniorních vývojářů - díky tomu je custom software dostupný i firmám bez vlastního vývojového týmu.",
+    "items": [
+      {
+        "title": "Rychleji k něčemu užitečnému",
+        "description": "Méně času na repetitive code. Více pokroku, s prvním prototypem přibližně za dva týdny."
+      },
+      {
+        "title": "Chytřejší investice",
+        "description": "Začněte tím, na čem záleží nejvíc. Nižší náklady na implementaci znamenají, že z vašeho budgetu získáte více."
+      },
+      {
+        "title": "Quality by design",
+        "description": "Zkušení lidé mají pod kontrolou architkturu, bezpečnost, testování i detaily. AI pomáhá. Inženýři rozhodují."
+      }
+    ]
+  },
+  "process": {
+    "guarantee": "Záruka vrácení peněz",
+    "eyebrow": "JAK TO FUNGUJE",
+    "title": "Od „co kdyby“ k funkčnímu řešení.",
+    "description": "Vy přinesete business problém. My přineseme technické know-how.",
+    "items": [
+      {
+        "title": "Pojďme si promluvit",
+        "description": "Nezávazný rozhovor zdarma o vašich cílech, problémech a o tom, co by mohlo fungovat lépe.",
+        "tag": "Zdarma. Bez nátlaku."
+      },
+      {
+        "title": "Proměňme nápad v něco konkrétního",
+        "description": "Dohodneme se na malém, užitečném scope a postavíme váš první funkční prototype.",
+        "tag": "Přibližně 2 týdny*"
+      },
+      {
+        "title": "Vyzkoušet. Vylepšit.",
+        "description": "Dejte řešení do rukou skutečným uživatelům. Posloucháme, učíme se a upravujeme ho podle reálného feedbacku.",
+        "tag": "Spolu"
+      },
+      {
+        "title": "A pak růst dál",
+        "description": "Přidávejte funkcionality, propojujte další tools a pokračujte ve vylepšování spolu s růstem vašeho podnikání.",
+        "tag": "Vaším tempem"
+      }
+    ],
+    "note": "Technická specifikace není potřeba. Stačí nám říct, co chcete zjednodušit.",
+    "timing": "*Doba vytvoření prototypu závisí na dohodnutém rozsahu. Kompletní produkt může trvat déle."
+  },
+  "problems": {
+    "eyebrow": "ZNÍ VÁM TO POVĚDOMĚ?",
+    "title": "Existuje lepší způsob,\njak to dělat.",
+    "description": "Nemusíte vědět, jaký software potřebujete. Stačí vědět, co dnes nefunguje.",
+    "items": [
+      {
+        "question": "„Celá naše firma funguje na změti excelových tabulek.“",
+        "answer": "Jeden přehledný systém postavený kolem vašich procesů. Sdílená data, méně chyb a žádné hledání nejnovější verze souboru."
+      },
+      {
+        "question": "„Náš tým celý den přepisuje objednávky z e-mailů.“",
+        "answer": "Workflow, který vytáhne údaje z objednávky, zkontroluje je a pošle je do správného systému - přičemž váš tým má stále pod kontrolou výjimky."
+      },
+      {
+        "question": "„Zákazníci nám musí volat kvůli každé aktualizaci.“",
+        "answer": "Jednoduchý zákaznický portál s aktuálním stavem, důležitými dokumenty a odpověďmi na jednom místě."
+      },
+      {
+        "question": "„Naše systémy spolu nekomunikují.“",
+        "answer": "Spolehlivé integrace, které udrží customer, order a business data synchronizovaná napříč nástroji, které už používáte."
+      },
+      {
+        "question": "„Máme nápad na produkt. Ale nemáme vývojový tým.“",
+        "answer": "Profesiální vývojový partner, který vám pomůže nápad vytvarovat, postavit první užitečnou verzi a dál ji zlepšovat podle reálného customer feedbacku."
+      }
+    ]
+  },
+  "why": {
+    "eyebrow": "PROČ PLAINLYSMART",
+    "title": "Partner, který stojí na vaší straně.\nNe další vrstva složitosti.",
+    "description": "Jasné odpovědi. Promyšlený engineering. Software, který si své místo ve vašem podnikání zaslouží.",
+    "items": [
+      {
+        "title": "Přímo by design",
+        "description": "Mluvíte přímo s lidmi, kteří váš software staví. Jasná komunikace, společná rozhodnutí a žádné zbytečné předávání mezi lidmi."
+      },
+      {
+        "title": "Seniorní zkušenosti. Moderní technologie.",
+        "description": "Zkušený engineering urychlený pomocí AI. Pragmatická rozhodnutí a správné nástroje pro váš problém."
+      },
+      {
+        "title": "Celý obraz pod kontrolou",
+        "description": "Od prvního sketch až po launch a další rozvoj. Rozhraní, data, integrace i infrastruktura - o všechno je postaráno."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "POJĎME VYTVOŘIT NĚCO UŽITEČNÉHO",
+    "title": "Co by vám mohl software\nusnadnit?",
+    "description": "Nápad, bottleneck nebo lepší způsob práce. Všechno začíná rozhovorem.",
+    "cta": "Domluvit konzultaci zdarma",
+    "note": "Nemusíte mít nic připraveného. Bez závazků. Jen probereme možnosti.",
+    "email": "hello@plainlysmart.com",
+    "dialogTitle": "Řekněte nám, co máte na mysli.",
+    "dialogDescription": "Napište nám něco o svém nápadu. Ozveme se vám a domluvíme konzultaci zdarma.",
+    "emailLabel": "E-mail",
+    "message": "Co byste chtěli vytvořit nebo zlepšit?",
+    "submit": "Odeslat zprávu",
+    "close": "Zavřít konzultaci",
+    "subject": "Konzultace zdarma",
+    "emailBody": "E-mail: {email}\nTelefon: {phone}\n\n{message}",
+    "sent": "Děkujeme! Vaše zpráva byla odeslána. Brzy se vám ozveme.",
+    "phone": "Telefon (nepovinné)",
+    "alternative": "Raději e-mail?",
+    "name": "Vaše jméno",
+    "company": "Firma (nepovinné)",
+    "validation": {
+      "required": "Toto pole je povinné.",
+      "email": "Zadejte platnou e-mailovou adresu.",
+      "maxLength": "Zadejte nejvýše {max} znaků."
+    },
+    "marketingConsent": "Chci dostávat novinky PlainlySmart e-mailem (nepovinné).",
+    "submitting": "Odesílání…",
+    "error": "Odeslání se nepodařilo dokončit. Zkuste to znovu nebo nám napište e-mail.",
+    "unavailable": "Formulář momentálně není dostupný. Napište nám prosím e-mail.",
+    "bookingCta": "Rezervovat bezplatnou konzultaci"
+  },
+  "footer": {
+    "tagline": "Dobrý software. Méně frikce.",
+    "copyright": "© {year} Plainlysmart. Built for what’s next.",
+    "back": "Zpět nahoru"
+  }
+}
