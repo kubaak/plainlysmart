@@ -1,0 +1,23 @@
+{
+  "name": "plainlysmart-contact",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "synth": "cdk synth",
+    "deploy": "cdk deploy",
+    "destroy": "cdk destroy"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.1140.0",
+    "aws-cdk-lib": "^2.270.0",
+    "constructs": "^10.8.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.163",
+    "aws-cdk": "^2.1143.0",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

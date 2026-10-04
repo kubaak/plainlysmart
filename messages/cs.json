@@ -49,12 +49,7 @@
   },
   "strip": {
     "intro": "Menší tým. Větší možnosti.",
-    "items": [
-      "Senior engineering",
-      "AI-assisted development",
-      "Postavené kolem vás",
-      "Připravené růst s vámi"
-    ]
+    "items": ["Senior engineering", "AI-assisted development", "Postavené kolem vás", "Připravené růst s vámi"]
   },
   "build": {
     "eyebrow": "CO STAVÍME",
@@ -225,7 +220,7 @@
     "description": "Nápad, bottleneck nebo lepší způsob práce. Všechno začíná rozhovorem.",
     "cta": "Domluvit konzultaci zdarma",
     "note": "Nemusíte mít nic připraveného. Bez závazků. Jen probereme možnosti.",
-    "email": "hello@plainlysmart.com",
+    "email": "info@plainlysmart.com",
     "dialogTitle": "Řekněte nám, co máte na mysli.",
     "dialogDescription": "Napište nám něco o svém nápadu. Ozveme se vám a domluvíme konzultaci zdarma.",
     "emailLabel": "E-mail",
