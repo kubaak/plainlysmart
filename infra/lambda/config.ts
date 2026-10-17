@@ -5,7 +5,8 @@ let cached: { value: Secrets; expires: number } | undefined;
 export interface Secrets { BREVO_API_KEY: string; TURNSTILE_SECRET_KEY: string }
 export async function getSecrets(): Promise<Secrets> {
   if (cached && cached.expires > Date.now()) return cached.value;
-  const result = await client.send(new GetSecretValueCommand({ SecretId: process.env.CONTACT_SECRET_ARN }), { abortSignal: AbortSignal.timeout(4000) });
+  if (!process.env.CONTACT_SECRET_NAME?.trim()) throw new Error("CONFIGURATION_ERROR");
+  const result = await client.send(new GetSecretValueCommand({ SecretId: process.env.CONTACT_SECRET_NAME }), { abortSignal: AbortSignal.timeout(4000) });
   const value = JSON.parse(result.SecretString ?? "{}");
   if (typeof value.BREVO_API_KEY !== "string" || !value.BREVO_API_KEY ||
       typeof value.TURNSTILE_SECRET_KEY !== "string" || !value.TURNSTILE_SECRET_KEY) throw new Error("CONFIGURATION_ERROR");

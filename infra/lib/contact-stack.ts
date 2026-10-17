@@ -1,5 +1,5 @@
 import * as path from "node:path";
-import { CfnOutput, CfnParameter, Duration, RemovalPolicy, Stack, Tags, type StackProps } from "aws-cdk-lib";
+import { CfnOutput, Duration, RemovalPolicy, Stack, Tags, type StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as apigw from "aws-cdk-lib/aws-apigatewayv2";
 import { HttpLambdaIntegration } from "aws-cdk-lib/aws-apigatewayv2-integrations";
@@ -10,25 +10,17 @@ import * as logs from "aws-cdk-lib/aws-logs";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 
+import { loadStageConfig } from "./stage-config";
+
 export class ContactStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
-    const environment: unknown = scope.node.tryGetContext("stage") ?? "prod";
-    if (typeof environment !== "string" || environment.trim() !== environment || !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(environment) || environment.length > 32) {
-      throw new Error("stage must be 1-32 lowercase letters, digits or single separating hyphens, starting with a letter");
-    }
+    const { stage: environment, config } = loadStageConfig(scope.node.tryGetContext("stage") ?? "prod");
     const prefix = `ps-${environment}-contact`;
     super(scope, id, { ...props, stackName: prefix });
     for (const [key, value] of Object.entries({ Project: "Plainlysmart", ProjectCode: "ps", Environment: environment, ManagedBy: "CDK" })) {
       Tags.of(this).add(key, value);
     }
-    const parameter = (name: string, defaultValue?: string) =>
-      new CfnParameter(this, name, {
-        type: "String",
-        ...(defaultValue === undefined ? {} : { default: defaultValue }),
-        minLength: defaultValue === "" ? 0 : 1,
-      }).valueAsString;
-    const secretArn = parameter("ContactSecretArn");
-    const secret = secretsmanager.Secret.fromSecretCompleteArn(this, "ContactSecret", secretArn);
+    const secret = secretsmanager.Secret.fromSecretNameV2(this, "ContactSecret", config.contactSecretName);
     const functionLogs = new logs.LogGroup(this, "FunctionLogs", {
       logGroupName: `/aws/lambda/${prefix}-handler`,
       retention: logs.RetentionDays.ONE_MONTH,
@@ -48,18 +40,15 @@ export class ContactStack extends Stack {
       role,
       bundling: { target: "node24", minify: true, externalModules: [] },
       environment: {
-        CONTACT_SECRET_ARN: secret.secretArn,
-        BREVO_LEADS_LIST_ID: parameter("BrevoLeadsListId"),
-        BREVO_NEWSLETTER_LIST_ID: parameter("BrevoNewsletterListId"),
-        CONTACT_NOTIFICATION_EMAIL: parameter("ContactNotificationEmail", "info@plainlysmart.com"),
-        CONTACT_REPLY_TO_EMAIL: parameter("ContactReplyToEmail", "info@plainlysmart.com"),
-        BREVO_SENDER_EMAIL: parameter("BrevoSenderEmail", "info@mail.plainlysmart.com"),
-        BREVO_SENDER_NAME: parameter("BrevoSenderName", "PlainlySmart"),
-        BOOKING_URL: parameter("BookingUrl", ""),
-        TURNSTILE_HOSTNAMES: parameter(
-          "TurnstileHostnames",
-          "plainlysmart.com,www.plainlysmart.com,localhost,127.0.0.1",
-        ),
+        CONTACT_SECRET_NAME: config.contactSecretName,
+        BREVO_LEADS_LIST_ID: String(config.brevoLeadsListId),
+        BREVO_NEWSLETTER_LIST_ID: String(config.brevoNewsletterListId),
+        CONTACT_NOTIFICATION_EMAIL: config.contactNotificationEmail,
+        CONTACT_REPLY_TO_EMAIL: config.contactReplyToEmail,
+        BREVO_SENDER_EMAIL: config.brevoSenderEmail,
+        BREVO_SENDER_NAME: config.brevoSenderName,
+        BOOKING_URL: config.bookingUrl,
+        TURNSTILE_HOSTNAMES: config.turnstileHostnames.join(","),
       },
     });
     secret.grantRead(fn);
@@ -108,15 +97,20 @@ export class ContactStack extends Stack {
     };
     new CfnOutput(this, "ApiUrl", { value: api.apiEndpoint });
     new CfnOutput(this, "ContactUrl", { value: `${api.apiEndpoint}/contact` });
-    const domainName = this.node.tryGetContext("domainName") as string | undefined;
+    // Keep production domain ownership stable across deployments; dev stays opt-in.
+    const domainName = (this.node.tryGetContext("domainName") ??
+      (environment === "prod" ? "api.plainlysmart.com" : undefined)) as string | undefined;
     if (domainName) {
       const certificateArn = this.node.tryGetContext("certificateArn") as string | undefined;
       const certificate = certificateArn
         ? acm.Certificate.fromCertificateArn(this, "Certificate", certificateArn)
         : new acm.Certificate(this, "Certificate", { domainName, validation: acm.CertificateValidation.fromDns() });
-      const domain = new apigw.DomainName(this, "ApiDomain", { domainName, certificate });
+      const domain = new apigw.DomainName(this, "ApiDomain", {
+        domainName, certificate, securityPolicy: apigw.SecurityPolicy.TLS_1_2,
+      });
       new apigw.ApiMapping(this, "ApiMapping", { api, domainName: domain, stage });
       new CfnOutput(this, "CustomApiUrl", { value: `https://${domainName}` });
+      new CfnOutput(this, "CustomContactUrl", { value: `https://${domainName}/contact` });
       new CfnOutput(this, "CloudflareCnameTarget", { value: domain.regionalDomainName });
     }
   }

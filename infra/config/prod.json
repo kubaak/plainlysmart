@@ -1,0 +1,11 @@
+{
+  "brevoLeadsListId": 3,
+  "brevoNewsletterListId": 4,
+  "contactSecretName": "ps-prod-contact",
+  "contactNotificationEmail": "info@plainlysmart.com",
+  "contactReplyToEmail": "info@plainlysmart.com",
+  "brevoSenderEmail": "info@plainlysmart.com",
+  "brevoSenderName": "PlainlySmart",
+  "bookingUrl": "",
+  "turnstileHostnames": ["plainlysmart.com", "www.plainlysmart.com"]
+}

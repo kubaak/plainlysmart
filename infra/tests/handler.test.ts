@@ -10,7 +10,7 @@ let statuses: number[];
 let verification: Record<string, unknown>;
 beforeEach(() => {
   Object.assign(process.env, {
-    CONTACT_SECRET_ARN: "test", BREVO_LEADS_LIST_ID: "1", BREVO_NEWSLETTER_LIST_ID: "2",
+    CONTACT_SECRET_NAME: "test", BREVO_LEADS_LIST_ID: "1", BREVO_NEWSLETTER_LIST_ID: "2",
     CONTACT_NOTIFICATION_EMAIL: "info@plainlysmart.com", CONTACT_REPLY_TO_EMAIL: "info@plainlysmart.com",
     BREVO_SENDER_EMAIL: "info@mail.plainlysmart.com", BREVO_SENDER_NAME: "PlainlySmart",
     TURNSTILE_HOSTNAMES: "plainlysmart.com", BOOKING_URL: "https://example.com/book",

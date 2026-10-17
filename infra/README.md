@@ -15,7 +15,7 @@ The website remains a Next.js static export. Its consultation modal POSTs JSON t
 
 ## AWS resources
 
-CDK creates one Node.js 24 Lambda (256 MB, 28-second timeout), its execution role with log writing and read access to the specified secret only, an HTTP API, POST `/contact` route, Lambda proxy integration and invoke permission, a default stage (5 requests/second, burst 10), and two CloudWatch log groups (30-day retention). Optional custom domain mode adds a regional API Gateway domain, API mapping and DNS-validated ACM certificate, unless an existing certificate ARN is supplied.
+CDK creates one Node.js 24 Lambda (128 MB, 28-second timeout), its execution role with log writing and read access to the specified secret only, an HTTP API, POST `/contact` route, Lambda proxy integration and invoke permission, a default stage (5 requests/second, burst 10), and two CloudWatch log groups (30-day retention). Optional custom domain mode adds a regional API Gateway domain, API mapping and DNS-validated ACM certificate, unless an existing certificate ARN is supplied.
 
 The secret is provisioned separately and is not deleted by this stack. No AWS resources are created by `synth` or tests. Deployment incurs normal AWS usage charges. Destroy removes the API, Lambda and stack-owned log groups, and any stack-owned domain/certificate. Remove custom DNS records separately.
 
@@ -61,7 +61,7 @@ Create one AWS Secrets Manager **Other type of secret** in the deployment region
 }
 ```
 
-Use the Secrets Manager console to enter these values without placing them in shell history or repository files. Copy the full ARN including its random suffix as `ContactSecretArn`. The function reads it at runtime and caches it for at most five minutes. The keys never appear in CloudFormation or public frontend variables. If you use your own KMS key instead, add narrowly scoped decrypt permission for that key before deploying.
+Use the Secrets Manager console to enter these values without placing them in shell history or repository files. Set its existing name as `contactSecretName` in the stage JSON. The function reads it at runtime and caches it for at most five minutes. The keys never appear in CloudFormation or public frontend variables. If you use your own KMS key instead, add narrowly scoped decrypt permission for that key before deploying.
 
 In Brevo:
 
@@ -82,21 +82,21 @@ Explicit resource names use `ps-{stage}-{purpose}`. CDK context `stage` defaults
 
 The CloudFormation stack is `ps-prod-contact`, Lambda is `ps-prod-contact-handler`, HTTP API is `ps-prod-contact-api`, and access log group is `ps-prod-contact-access-logs`. Lambda logs use `/aws/lambda/ps-prod-contact-handler`. The CDK stack selector remains `PlainlySmartContact`; all construct IDs remain unchanged. IAM role names remain generated, as do CDK bootstrap asset bucket names.
 
-Stack tags propagate to supported resources: `Project=Plainlysmart`, `ProjectCode=ps`, `Environment={stage}`, and `ManagedBy=CDK`. The existing secret is imported by ARN, so CDK cannot rename or tag it. When provisioning a new external secret, name it `ps-{stage}-contact-secrets` and apply these tags separately; existing secrets and their ARNs remain valid.
+Stack tags propagate to supported resources: `Project=Plainlysmart`, `ProjectCode=ps`, `Environment={stage}`, and `ManagedBy=CDK`. The existing secret is imported by name, so CDK cannot rename or tag it. Set `contactSecretName` to the actual external secret name; the checked-in files use `ps-prod-contact` and `ps-dev-contact`.
 
 From `infra`, using the existing stack selector:
 
 ```sh
 npm run synth -- PlainlySmartContact -c stage=prod
-npm run diff -- PlainlySmartContact -c stage=prod
-npm run deploy -- PlainlySmartContact -c stage=prod --parameters ContactSecretArn=YOUR_FULL_SECRET_ARN --parameters BrevoLeadsListId=YOUR_LEADS_ID --parameters BrevoNewsletterListId=YOUR_NEWSLETTER_ID --parameters TurnstileHostnames=plainlysmart.com,www.plainlysmart.com
+npm run diff -- PlainlySmartContact -c stage=prod --method template
+npm run deploy -- PlainlySmartContact -c stage=prod
 ```
 
 ### Existing deployment migration
 
 Previously the CloudFormation stack name defaulted to `PlainlySmartContact`. Changing it to `ps-prod-contact` creates a separate stack; CDK does not rename or migrate the existing stack. Confirm deployed state before deploying and plan endpoint/DNS cutover and retirement of the old stack. A custom domain already owned by the old stack cannot be created concurrently by the new stack; plan its transfer before deploying with that context. Imported secrets and certificates remain external.
 
-Within an existing stack, adding the explicit Lambda function name and both log group names requires replacement; the API display-name change updates in place. Log groups have `RemovalPolicy.DESTROY`, so replacement/deletion can lose existing logs; export any logs needed first. Construct IDs and resource logical IDs are preserved, but a new stack still creates new resources and an API endpoint. Changing `stage` also selects a separate stack with distinct names. Review `npm run diff -- PlainlySmartContact -c stage=prod` with credentials before deployment.
+Within an existing stack, adding the explicit Lambda function name and both log group names requires replacement; the API display-name change updates in place. Log groups have `RemovalPolicy.DESTROY`, so replacement/deletion can lose existing logs; export any logs needed first. Construct IDs and resource logical IDs are preserved, but a new stack still creates new resources and an API endpoint. Changing `stage` also selects a separate stack with distinct names. Review `npm run diff -- PlainlySmartContact -c stage=prod --method template` with credentials before deployment.
 
 Frontend variables are baked into the static build; rebuild/redeploy after changes:
 
@@ -106,21 +106,38 @@ Frontend variables are baked into the static build; rebuild/redeploy after chang
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`                  | Public widget site key                                                  |
 | `NEXT_PUBLIC_BOOKING_URL`                         | Optional HTTPS external appointment page                                |
 
-CDK parameters map to Lambda configuration:
+### Stage configuration files
 
-| CDK parameter              | Lambda variable              | Default                                           |
-| -------------------------- | ---------------------------- | ------------------------------------------------- |
-| `ContactSecretArn`         | `CONTACT_SECRET_ARN`         | Required, full secret ARN                         |
-| `BrevoLeadsListId`         | `BREVO_LEADS_LIST_ID`        | Required positive integer                         |
-| `BrevoNewsletterListId`    | `BREVO_NEWSLETTER_LIST_ID`   | Required distinct positive integer                |
-| `ContactNotificationEmail` | `CONTACT_NOTIFICATION_EMAIL` | `info@plainlysmart.com`                           |
-| `ContactReplyToEmail`      | `CONTACT_REPLY_TO_EMAIL`     | `info@plainlysmart.com`                           |
-| `BrevoSenderEmail`         | `BREVO_SENDER_EMAIL`         | `info@mail.plainlysmart.com`                      |
-| `BrevoSenderName`          | `BREVO_SENDER_NAME`          | `PlainlySmart`                                    |
-| `BookingUrl`               | `BOOKING_URL`                | Empty; optional HTTPS booking page                |
-| `TurnstileHostnames`       | `TURNSTILE_HOSTNAMES`        | Production hostnames plus localhost and 127.0.0.1 |
+CDK reads `config/{stage}.json` relative to the infrastructure package, with `prod` as the default. Missing files, malformed JSON, missing/unknown fields, invalid types, identical or non-positive list IDs, invalid email addresses, secret names, booking URLs and hostnames fail before synthesis. Add another file to support another valid stage.
 
-Set `TurnstileHostnames=plainlysmart.com,www.plainlysmart.com` on production deployment. Set both booking variables to the same scheduling page if desired. The email uses the backend value; the thank-you UI uses the public value.
+Required structure (current production values):
+
+```json
+{
+  "brevoLeadsListId": 3,
+  "brevoNewsletterListId": 4,
+  "contactSecretName": "ps-prod-contact",
+  "contactNotificationEmail": "info@plainlysmart.com",
+  "contactReplyToEmail": "info@plainlysmart.com",
+  "brevoSenderEmail": "info@mail.plainlysmart.com",
+  "brevoSenderName": "PlainlySmart",
+  "bookingUrl": "",
+  "turnstileHostnames": [
+    "plainlysmart.com",
+    "www.plainlysmart.com",
+    "localhost",
+    "127.0.0.1"
+  ]
+}
+```
+
+The existing production file's list IDs and secret name are preserved. Development IDs initially mirror production because no separate IDs were supplied: configure separate development lists and verify the external development secret before deploying dev. All fields are required; `bookingUrl` may be empty. Keep both frontend/backend booking settings aligned when used. Existing CORS origins and Turnstile hostname defaults are preserved; restrict production `turnstileHostnames` to your production widget's hostnames when ready.
+
+These settings replace all contact CloudFormation parameters. Lambda receives the list IDs, email settings, booking URL and hostnames as non-sensitive environment values, plus `CONTACT_SECRET_NAME` solely to locate the secret. The SDK retrieves credentials at runtime; no secret value is resolved by CDK. IAM allows reads of the named secret with Secrets Manager's six-character ARN suffix only; no secret resource is created. Keep `BREVO_API_KEY` and `TURNSTILE_SECRET_KEY` exclusively in the external secret, never in these files or Lambda environment variables.
+
+Production defaults to `api.plainlysmart.com`; development has no custom domain unless `domainName` context is supplied. The existing `domainName`/`certificateArn` overrides remain supported. Keep overrides consistent on subsequent deployments; changing a domain can replace its domain/certificate resources.
+
+For an existing deployment, copy the current deployed parameter values into the appropriate stage file before deploying, including the exact secret name. This removes parameter references and updates Lambda configuration and secret-read IAM permissions without changing resource names or architecture. Review the diff against the deployed stack; file values replace any previously supplied parameter overrides.
 
 ## Deploy and find the URL
 
@@ -129,10 +146,10 @@ Authenticate AWS CLI using your normal profile/SSO. Choose an account and region
 ```sh
 npx cdk bootstrap aws://YOUR_ACCOUNT_ID/eu-central-1
 npm run synth
-npm run deploy -- --parameters ContactSecretArn=YOUR_FULL_SECRET_ARN --parameters BrevoLeadsListId=YOUR_LEADS_ID --parameters BrevoNewsletterListId=YOUR_NEWSLETTER_ID --parameters TurnstileHostnames=plainlysmart.com,www.plainlysmart.com --outputs-file cdk.out/outputs.json
+npm run deploy -- -c stage=prod --outputs-file cdk.out/outputs.json
 ```
 
-Use `--profile YOUR_PROFILE` on CDK commands if needed. Set the profile's region to the same region as your secret. Optional: append `--parameters BookingUrl=https://YOUR_SCHEDULING_PAGE`.
+Use `--profile YOUR_PROFILE` on CDK commands if needed. Set the profile's region to the same region as your secret. Set `bookingUrl` in the selected stage JSON if needed.
 
 CDK prints `ApiUrl` (base) and `ContactUrl` (full endpoint). They also appear in `infra/cdk.out/outputs.json` and CloudFormation stack Outputs. Put `ApiUrl` into the frontend variable for first-deployment testing. Rebuild the static website independently with `npm run build` from the repository root.
 
@@ -147,7 +164,33 @@ If you deployed with custom-domain context, pass the same context on subsequent 
 
 ## Cloudflare custom domain
 
-The initial deployment does not require a domain or certificate. When ready, add `-c domainName=api.plainlysmart.com` to the deployment command above. CDK requests an ACM certificate **in the API's AWS region**. During deployment, open ACM and copy the certificate validation CNAME name/value to Cloudflare DNS (DNS only). Deployment waits for DNS validation. Keep that record for automatic renewal.
+Production now requests `api.plainlysmart.com` by default. The existing `ContactApi`, `ContactFunction`, routes, integration, default stage, IAM and log construct IDs are preserved. The domain maps the root path to the existing HTTP API's `$default` stage. No Cloudflare DNS changes are automated and no Route 53 resources are added.
+
+For the existing **`ps-prod-contact` in `eu-central-1`**, run these checks from `infra` with your production AWS profile configured:
+
+```sh
+npm run typecheck
+npm test
+npm run synth -- PlainlySmartContact -c stage=prod --region eu-central-1
+aws sts get-caller-identity
+npm run diff -- PlainlySmartContact -c stage=prod --region eu-central-1 --method template
+```
+
+Review the deployed diff before proceeding. The domain change should add only an ACM certificate, regional API Gateway domain and API mapping, plus outputs. Stop if the API, Lambda, routes, integration, IAM or logs would be replaced or deleted. Other pending repository changes may appear in the diff and must be reviewed separately. Template-only diff does not provide the full replacement analysis of a CloudFormation change set. Do not change stack/stage names or bootstrap the already deployed environment for this update.
+
+When ready, the operator can start deployment (this command is documented, not run automatically):
+
+```sh
+npm run deploy -- PlainlySmartContact -c stage=prod --region eu-central-1 --outputs-file cdk.out/outputs.json
+```
+
+While that command waits, open ACM in **eu-central-1**, select the pending certificate for `api.plainlysmart.com`, and copy its DNS validation record into Cloudflare:
+
+| Type | Name | Target | Proxy | TTL |
+| ---- | ---- | ------ | ----- | --- |
+| CNAME | `_TOKEN.api` (from ACM's `_TOKEN.api.plainlysmart.com`) | Exact ACM value, typically `_TOKEN.acm-validations.aws` | DNS only | Auto |
+
+The tokens are generated by ACM during deployment and cannot be obtained from local synthesis or stack outputs before validation. Copy the actual name/value, including leading underscores; do not duplicate the zone suffix when entering the name. This validation record is separate from the `api` traffic record below. Leave validation CNAME flattening disabled and retain the record for renewal. If issuance stalls, verify public DNS resolution and any CAA restrictions. CloudFormation waits for issuance before creating the domain/mapping; complete validation while deployment is in progress. See [ACM DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html).
 
 Alternatively obtain/validate a certificate first and also pass `-c certificateArn=YOUR_REGIONAL_ACM_CERTIFICATE_ARN`. The existing certificate must cover `api.plainlysmart.com` in the same AWS region.
 
@@ -158,6 +201,10 @@ After deployment add this Cloudflare record:
 | CNAME | `api` | Stack output `CloudflareCnameTarget` (regional API Gateway hostname; no scheme/path) | DNS only | Auto |
 
 Then use `https://api.plainlysmart.com` as `NEXT_PUBLIC_API_BASE_URL` and rebuild the static site. The API mapping has no path prefix; POST remains `/contact`. No Route 53 hosted zone is created.
+
+After deployment, outputs are `CloudflareCnameTarget` (regional target), `CustomApiUrl` (`https://api.plainlysmart.com`) and `CustomContactUrl` (`https://api.plainlysmart.com/contact`). Existing `ApiUrl` and `ContactUrl` continue to expose the execute-api endpoint. Update the Cloudflare Pages production build variable and rebuild/redeploy the frontend separately after DNS resolves. The production origin `https://plainlysmart.com` is already allowed by CORS.
+
+Repeat deployments with the same stage, region and context reuse the same resources. Tests compare the full existing resource definitions with and without the domain and verify stable repeated synthesis; they cannot prove the live stack matches this checkout. The change adds no Lambda execution permissions. API Gateway may create its AWS-managed service-linked role on first regional custom-domain use. Normal API/Lambda/DNS usage charges still apply; no always-on compute is added. See [regional custom domains](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-regional-api-custom-domain-create.html).
 
 ## Responses, logging and delivery limits
 
