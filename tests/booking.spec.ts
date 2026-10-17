@@ -21,11 +21,11 @@ for (const [locale, m] of Object.entries({ en, cs })) {
     await trigger.click();
     const dialog = page.getByRole("dialog");
     await expect(dialog.getByRole("heading", { name: m.contact.dialogTitle })).toBeVisible();
-    await expect(dialog.locator("input, textarea")).toHaveCount(6);
-    const name = dialog.getByLabel(m.contact.name, { exact: true });
-    const email = dialog.getByLabel(m.contact.emailLabel, { exact: true });
+    await expect(dialog.locator("input, textarea")).toHaveCount(5);
+    const name = dialog.locator('input[autocomplete="name"]');
+    const email = dialog.locator('input[type="email"]');
     const phone = dialog.getByLabel(m.contact.phone);
-    const message = dialog.getByLabel(m.contact.message);
+    const message = dialog.locator("textarea");
     await expect(email).toHaveAttribute("required");
     await expect(message).toHaveAttribute("required");
     await expect(phone).not.toHaveAttribute("required");
@@ -58,6 +58,8 @@ for (const [locale, m] of Object.entries({ en, cs })) {
     expect(requests).toHaveLength(0);
     await dialog.getByRole("button", { name: m.contact.submit }).click();
     await expect(dialog.getByRole("status")).toHaveText(m.contact.sent);
+    await expect(dialog).toHaveText(m.contact.sent);
+    await expect(dialog).toHaveAccessibleName(m.contact.sent);
     await page.keyboard.press("Escape");
     await expect(trigger).toBeFocused();
     await page.locator(".other-idea a").click();

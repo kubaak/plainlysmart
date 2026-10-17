@@ -183,7 +183,7 @@ function ContactFields({
   );
 }
 
-function EmailForm() {
+function EmailForm({ onSuccess }: { onSuccess: () => void }) {
   const t = useTranslations("contact");
   const locale = useLocale();
 
@@ -210,7 +210,6 @@ function EmailForm() {
   });
 
   const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL;
 
   const configured = Boolean(apiBase && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 
@@ -247,6 +246,7 @@ function EmailForm() {
       }
 
       setStatus("success");
+      onSuccess();
     } catch {
       setStatus("error");
       setToken("");
@@ -257,15 +257,9 @@ function EmailForm() {
   if (status === "success") {
     return (
       <div className="contact-form">
-        <p role="status" className="form-status">
+        <p id="booking-sent" role="status" className="form-status">
           {t("sent")}
         </p>
-
-        {bookingUrl?.startsWith("https://") && (
-          <a className="button button-primary" href={bookingUrl}>
-            {t("bookingCta")}
-          </a>
-        )}
       </div>
     );
   }
@@ -308,6 +302,7 @@ export function BookingExperience({ children }: { children: React.ReactNode }) {
   const dialog = useRef<HTMLDialogElement>(null);
 
   const [opening, setOpening] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
 
   const previousOverflow = useRef("");
   const bodyScrollLocked = useRef(false);
@@ -321,6 +316,7 @@ export function BookingExperience({ children }: { children: React.ReactNode }) {
 
     bodyScrollLocked.current = true;
 
+    setSubmitted(false);
     setOpening((value) => value + 1);
 
     dialog.current?.showModal();
@@ -353,8 +349,8 @@ export function BookingExperience({ children }: { children: React.ReactNode }) {
         id="booking"
         ref={dialog}
         className="consult-dialog"
-        aria-labelledby="booking-title"
-        aria-describedby="booking-description"
+        aria-labelledby={submitted ? "booking-sent" : "booking-title"}
+        aria-describedby={submitted ? undefined : "booking-description"}
         onClose={restoreBodyScroll}
         onClick={(event) => {
           if (event.target === event.currentTarget) {
@@ -372,13 +368,15 @@ export function BookingExperience({ children }: { children: React.ReactNode }) {
             <X />
           </button>
 
-          <span className="eyebrow">{contact("eyebrow")}</span>
+          {!submitted && (
+            <>
+              <span className="eyebrow">{contact("eyebrow")}</span>
+              <h2 id="booking-title">{contact("dialogTitle")}</h2>
+              <p id="booking-description">{contact("dialogDescription")}</p>
+            </>
+          )}
 
-          <h2 id="booking-title">{contact("dialogTitle")}</h2>
-
-          <p id="booking-description">{contact("dialogDescription")}</p>
-
-          {opening > 0 && <EmailForm key={opening} />}
+          {opening > 0 && <EmailForm key={opening} onSuccess={() => setSubmitted(true)} />}
         </div>
       </dialog>
     </BookingContext.Provider>
