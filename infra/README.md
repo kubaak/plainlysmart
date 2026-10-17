@@ -10,7 +10,7 @@ The website remains a Next.js static export. Its consultation modal POSTs JSON t
 - `package.json`, `package-lock.json`, `tsconfig.json`, `.gitignore`: independent backend tooling.
 - `../src/components/booking.tsx`, `Turnstile.tsx`: existing modal integration and verification widget.
 - `../src/lib/contact-tracking.ts`, `../src/components/LocaleEntry.tsx`: session UTM capture, including before the root locale redirect.
-- `../messages/{en,cs}.json`, `../src/app/globals.css`, `../tests/booking.spec.ts`: form copy, checkbox/disabled styling, browser coverage.
+- `../messages/{en,cs}.json`, `../src/app/globals.css`, `../tests/booking.spec.ts`: form copy, disabled styling, browser coverage.
 - `../.env.example`, `../tsconfig.json`, `../eslint.config.js`: frontend configuration and separation from infrastructure artifacts.
 
 ## AWS resources
@@ -65,12 +65,12 @@ Use the Secrets Manager console to enter these values without placing them in sh
 
 In Brevo:
 
-1. Create distinct leads and newsletter lists; record their numeric IDs. The function rejects identical IDs, so inquiries cannot accidentally imply newsletter consent.
-2. Create normal contact attributes `NAME`, `COMPANY`, `PHONE`, `MESSAGE`, `UTM_SOURCE`, `UTM_MEDIUM`, `UTM_CAMPAIGN`, `UTM_CONTENT`, `UTM_TERM`, `LOCALE` as **text**, and `MARKETING_CONSENT` as **boolean**. `PHONE` is custom text, not Brevo's SMS attribute. Ensure MESSAGE accommodates the form's 4,000-character maximum.
+1. Configure the leads list and keep the distinct historical newsletter list ID for configuration compatibility. New newsletter signup is disabled. Confirm the leads list is excluded from marketing campaigns and automations.
+2. Create normal contact attributes `NAME`, `COMPANY`, `PHONE`, `MESSAGE`, `UTM_SOURCE`, `UTM_MEDIUM`, `UTM_CAMPAIGN`, `UTM_CONTENT`, `UTM_TERM`, `LOCALE` as **text**. `PHONE` is custom text, not Brevo's SMS attribute. Ensure MESSAGE accommodates the form's 4,000-character maximum.
 3. Authenticate `mail.plainlysmart.com` using Brevo's provided DNS records, verify `info@mail.plainlysmart.com`, and enable transactional sending for the account.
 4. Confirm `info@plainlysmart.com` is a working inbox for notifications and replies.
 
-Contact creation uses `updateEnabled: true`, so an existing email is updated and a 204 response succeeds. Newsletter list membership is only added when the current checkbox is true. An unchecked inquiry does not unsubscribe an existing subscriber or override Brevo's suppression state. `MARKETING_CONSENT` records the latest inquiry's checkbox, not a complete historical consent ledger. Manage unsubscribes and campaign eligibility in Brevo.
+Contact creation uses `updateEnabled: true`, so an existing email is updated and a 204 response succeeds. Newsletter signup is disabled pending verified consent evidence and unsubscribe handling. The form has no subscription control; the API validates but ignores the legacy optional boolean marketingConsent (true or false) and writes only to the leads list. Existing memberships, consent attributes and suppression are preserved. Exclude the leads list from campaign automations in the dashboard. Audit historical subscriptions separately; see ../docs/compliance.md.
 
 In Cloudflare Turnstile, create a widget allowing `plainlysmart.com` and `www.plainlysmart.com`. Add localhost/127.0.0.1 only for a development widget. Set its public site key in the frontend and corresponding secret in Secrets Manager. The widget uses action `contact`; the backend checks both action and returned hostname. Tokens are single-use, so the frontend obtains a new one after an unsuccessful request.
 
@@ -223,3 +223,9 @@ add professional tags
 senior engineering => high level engineering
 build around you - weird icon
 mobile app tile text
+
+## Transactional compatibility regression suite
+
+With both root and infra dependencies installed and a fresh configured static export, run root `npm run test:contact-flow`. This separate Playwright suite passes the real browser payload through the real local Lambda with Secrets Manager, Turnstile and Brevo mocked; it checks both emails and failure handling. Type-check it with `npx tsc --project infra/tests/browser/tsconfig.json --noEmit`. Default frontend build/tests remain independent of infra dependencies.
+
+Legacy boolean marketingConsent is accepted then ignored so cached old forms continue to deliver inquiries without subscribing. Deploy the fixed backend first when a release is authorized; the updated frontend is also compatible with the baseline Lambda because the old field was optional. Keep existing environment variables, including BREVO_NEWSLETTER_LIST_ID, until an explicit configuration migration. See [the review](../docs/contact-regression-review.md) for the full deployment matrix and test limitations.

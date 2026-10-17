@@ -37,7 +37,7 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
     await upsertBrevoContact(data, secrets.BREVO_API_KEY, config);
     stage = "brevo_notification";
     await sendBrevoEmail(secrets.BREVO_API_KEY, config, config.notificationEmail, "New PlainlySmart inquiry",
-      `Name: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company}\nPhone: ${data.phone}\nLocale: ${data.locale}\nMarketing consent: ${data.marketingConsent}\n\n${data.message}`);
+      `Name: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company}\nPhone: ${data.phone}\nLocale: ${data.locale}\n\n${data.message}`);
     stage = "brevo_confirmation";
     const email = confirmation(data, config.bookingUrl);
     await sendBrevoEmail(secrets.BREVO_API_KEY, config, data.email, email.subject, email.text);

@@ -1,1 +1,1 @@
-export const CLIENT_CAPACITY = 3;
+export const CLIENT_CAPACITY = 2;

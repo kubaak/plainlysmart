@@ -9,5 +9,6 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["bin/**/*.ts", "lib/**/*.ts", "lambda/**/*.ts", "tests/**/*.ts"]
+  "include": ["bin/**/*.ts", "lib/**/*.ts", "lambda/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["tests/browser"]
 }

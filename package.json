@@ -9,7 +9,8 @@
     "start": "serve out",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:contact-flow": "playwright test --config=playwright.contact.config.ts"
   },
   "keywords": [],
   "private": true,

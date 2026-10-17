@@ -2347,6 +2347,13 @@ p {
 .legal-page section { margin-top: 32px; }
 .legal-page h2 { font-size: 26px; letter-spacing: -.5px; margin-bottom: 12px; }
 .legal-page > p { margin-block: 16px; }
+.legal-page section p { margin-block: 14px; line-height: 1.8; }
+.legal-page ul { list-style: disc; padding-inline-start: 24px; margin-block: 16px; }
+.legal-page li { margin-block: 8px; }
+.legal-table-scroll { overflow-x: auto; margin-block: 20px; }
+.legal-table-scroll table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.65; }
+.legal-table-scroll th, .legal-table-scroll td { text-align: start; vertical-align: top; padding: 12px; border-bottom: 1px solid var(--line); min-width: 130px; }
+.legal-table-scroll th { font-weight: 600; }
 .business-identity { font-size: 13px; line-height: 1.7; margin-block: 24px; overflow-wrap: anywhere; }
 .business-identity div { display: flex; flex-wrap: wrap; gap: 4px 12px; }
 .business-identity dt { font-weight: 600; }

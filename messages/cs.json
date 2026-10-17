@@ -49,7 +49,12 @@
   },
   "strip": {
     "intro": "Menší tým. Větší možnosti.",
-    "items": ["Senior engineering", "AI-assisted development", "Postavené kolem vás", "Připravené růst s vámi"]
+    "items": [
+      "Senior engineering",
+      "AI-assisted development",
+      "Postavené kolem vás",
+      "Připravené růst s vámi"
+    ]
   },
   "build": {
     "eyebrow": "CO STAVÍME",
@@ -139,7 +144,6 @@
     ]
   },
   "process": {
-    "guarantee": "Záruka vrácení peněz",
     "eyebrow": "JAK TO FUNGUJE",
     "title": "Od „co kdyby“ k funkčnímu řešení.",
     "description": "Vy přinesete business problém. My přineseme technické know-how.",
@@ -239,7 +243,6 @@
       "email": "Zadejte platnou e-mailovou adresu.",
       "maxLength": "Zadejte nejvýše {max} znaků."
     },
-    "marketingConsent": "Chci dostávat novinky PlainlySmart e-mailem (nepovinné).",
     "submitting": "Odesílání…",
     "error": "Odeslání se nepodařilo dokončit. Zkuste to znovu nebo nám napište e-mail.",
     "unavailable": "Formulář momentálně není dostupný. Napište nám prosím e-mail.",
@@ -263,8 +266,6 @@
     "ico": "IČO",
     "address": "Sídlo",
     "registry": "Zápis v rejstříku",
-    "missing": "[K doplnění]",
-    "draft": "Návrh – před zveřejněním doplňte údaje správce a potvrďte právní rozhodnutí.",
     "effective": "Účinnost od",
     "updated": "Poslední aktualizace",
     "privacyContact": "Kontakt pro ochranu soukromí",
@@ -273,49 +274,165 @@
     "turnstile": "Informace o soukromí Cloudflare Turnstile",
     "sections": [
       {
-        "title": "Správce osobních údajů",
-        "body": "Správce vystupuje pod značkou PlainlySmart. Jeho identifikační údaje a kontakt pro ochranu soukromí jsou uvedeny níže. Chybějící údaje je nutné doplnit před zveřejněním."
+        "id": "information",
+        "title": "Jaké údaje zpracováváme",
+        "paragraphs": [
+          "Při kontaktování zpracováváme vaše jméno, e-mailovou adresu a zprávu, případně nepovinné telefonní číslo. API přijímá také nepovinný název společnosti. Zpracováváme související komunikaci, zvolený jazyk a informace přiměřeně potřebné k vyřízení dotazu.",
+          "Poskytovatelé hostingu a zabezpečení zpracovávají technické informace, například IP adresu, údaje o prohlížeči a zařízení a metadata požadavků. Pokud samostatně povolíte atribuci kampaní, mohou být k dotazu připojeny parametry kampaně. Citlivé osobní údaje nám prosím zasílejte pouze tehdy, je-li to nezbytné a výslovně požadované."
+        ]
       },
       {
-        "title": "Shromažďované údaje",
-        "body": "Formulář shromažďuje jméno, e-mail, zprávu, nepovinný telefon, jazyk a nepovinnou volbu odběru novinek. API přijímá také nepovinný název společnosti. Se samostatným povolením atribuce se k dotazu připojí parametry kampaně. Nezasílejte citlivé osobní údaje."
-      },
-      {
+        "id": "purposes",
         "title": "Účely a právní základy",
-        "body": "Vyřízení dotazu může vycházet z čl. 6 odst. 1 písm. b) GDPR pro kroky před uzavřením smlouvy na vaši žádost nebo z písm. f) pro ostatní korespondenci. Zabezpečení může vycházet z oprávněného zájmu podle písm. f). Správce musí tyto základy potvrdit a posoudit své zájmy. Nepovinné novinky vycházejí ze samostatného souhlasu podle písm. a), který můžete odvolat kontaktováním správce bez vlivu na předchozí zákonné zpracování. Atribuce kampaní vyžaduje samostatné nepovinné povolení. Žádná z těchto voleb není podmínkou kontaktu."
+        "paragraphs": [
+          "Právní základ volíme podle účelu konkrétního zpracování. Oprávněné zájmy nesmějí převážit nad vašimi právy a svobodami. Proti zpracování založenému na oprávněných zájmech můžete vznést námitku."
+        ]
       },
       {
-        "title": "Technické údaje a zabezpečení",
-        "body": "Poskytovatelé hostingu a zabezpečení mohou zpracovávat IP adresu, údaje o prohlížeči a zařízení a metadata požadavků. Cloudflare Turnstile se spouští při otevření formuláře proti automatizovanému zneužití; backend ověřuje jeho token. Aplikační logy obsahují identifikátory a výsledky požadavků a záměrně neobsahují obsah dotazů, e-maily, telefony ani tokeny."
+        "id": "contact",
+        "title": "Kontaktní formulář a komunikace",
+        "paragraphs": [
+          "Údaje používáme k vyřízení dotazu, projednání možné spolupráce a případnému sjednání konzultace. Formulář vyžaduje jméno, e-mailovou adresu a zprávu; telefon a údaje o společnosti jsou nepovinné. Bez povinných údajů nelze formulář odeslat. Kontaktovat nás můžete také e-mailem.",
+          "Odesláním dotazu se nepřihlašujete k marketingovým sdělením. Přihlášení k odběru novinek tento web v současnosti nenabízí. Automatické potvrzení přijetí zprávy je transakční komunikací a nezakládá marketingový odběr."
+        ]
       },
       {
-        "title": "Příjemci a poskytovatelé",
-        "body": "Údaje procházejí přes AWS API Gateway a Lambda do Brevo. Brevo ukládá kontakt, odesílá interní upozornění do naší schránky a potvrzení vám. Cloudflare poskytuje Turnstile. Hosting a poskytovatel schránky zpracovávají také technické údaje nebo korespondenci. Smluvní subjekty, role správců a zpracovatelů a smlouvy je nutné ověřit. Tento proces nevyužívá automatizované rozhodování s právními nebo obdobně významnými účinky."
+        "id": "providers",
+        "title": "Poskytovatelé služeb a příjemci",
+        "paragraphs": [
+          "Amazon Web Services (AWS) zajišťuje kontaktní API, serverless zpracování a aplikační logy i logy API. Brevo uchovává záznamy kontaktů včetně zprávy a případných odeslaných parametrů kampaně a doručuje oznámení do naší e-mailové schránky a potvrzení vám. Tato integrace nenastavuje automatické vypršení kontaktních záznamů.",
+          "Cloudflare Turnstile chrání formulář před automatizovaným zneužitím a při otevření nakonfigurovaného formuláře zpracovává technické signály. Při ochraně tohoto webu je Cloudflare zpracovatelem, při zdokonalování detekce botů samostatným správcem, jak popisuje ve svých zásadách. Poskytovatelé webového hostingu a obchodního e-mailu zpracovávají požadavky na web a korespondenci. Podle služby a podmínek mohou být poskytovatelé zpracovateli nebo samostatnými správci. Osobní údaje neprodáváme."
+        ]
       },
       {
+        "id": "transfers",
         "title": "Předávání mimo EHP",
-        "body": "Poskytovatelé mohou zpracovávat údaje mimo EHP. Země a použitelné záruky, například rozhodnutí o odpovídající ochraně nebo standardní smluvní doložky s potřebnými doplňujícími opatřeními, je nutné ověřit podle smluv a nastavení účtů. Zpracování pouze v EU není zaručeno. O informace o použitelných zárukách nás můžete požádat."
+        "paragraphs": [
+          "Naši technologičtí poskytovatelé působí mezinárodně. Cloudflare, Inc. sídlí ve Spojených státech; jeho zásady popisují mezinárodní zpracování a záruky předávání, včetně standardních smluvních doložek a mechanismů odpovídající ochrany, jsou-li použitelné. Brevo uvádí hosting databází ve Francii, Německu a Belgii; to neznamená, že všechny činnosti služby probíhají výhradně v EU.",
+          "Předávání vyžaduje použitelný mechanismus podle GDPR, například rozhodnutí o odpovídající ochraně nebo standardní smluvní doložky s případnými doplňujícími opatřeními. Informace o zárukách vztahujících se k vašim údajům a o možnosti získat jejich kopii si vyžádejte na kontaktním e-mailu pro ochranu soukromí."
+        ]
       },
       {
-        "title": "Doba uchování",
-        "body": "Infrastruktura nastavuje uchování logů funkce a API na 30 dnů. Lhůty nebo konkrétní kritéria výmazu kontaktů v Brevo, kopií ve schránce, logů poskytovatelů, záloh a údajů odběratelů dosud nebyly schváleny. Správce je musí určit a zveřejnit před dokončením zásad. Údaje mají být uchovávány jen po dobu potřebnou pro daný účel a příslušné povinnosti."
+        "id": "retention",
+        "title": "Doba uchovávání",
+        "paragraphs": [
+          "Osobní údaje uchováváme pouze po dobu potřebnou pro uvedené účely. Dotazy a související komunikaci uchováváme při jejich vyřizování a navazující komunikaci; jakmile již nejsou potřebné, posuzujeme jejich výmaz nebo anonymizaci. Relevantní klientskou a projektovou komunikaci uchováváme po dobu spolupráce a dále podle potřeby ke splnění konkrétních zákonných povinností nebo k určení, výkonu či obhajobě právních nároků.",
+          "Účetní a daňové doklady uchováváme po zákonnou dobu platnou pro příslušný druh dokladu. Skupiny aplikačních logů a logů API mají nastavenu retenci 30 dnů. Logy doručování a zálohy poskytovatelů se řídí vlastními postupy uchovávání; výmaz aktivních záznamů neznamená okamžité odstranění ze záloh. Doby uchovávání v prohlížeči uvádíme níže."
+        ]
       },
       {
+        "id": "storage",
+        "title": "Cookies a úložiště prohlížeče",
+        "paragraphs": [
+          "Úložiště prohlížeče používáme k zapamatování požadovaného jazyka, vzhledu a voleb soukromí. Volitelná atribuce kampaní zůstává vypnutá, dokud ji nepovolíte. Odmítnutí neomezuje prohlížení ani odeslání dotazu. Volbu můžete kdykoli změnit prostřednictvím Nastavení soukromí v patičce.",
+          "Odvolání souhlasu vymaže uložené údaje o kampani v této kartě a zabrání jejich připojení k dalším dotazům. Již odeslané údaje tím vymazány nejsou; o jejich výmaz nás můžete požádat. V této implementaci webu nepoužíváme reklamní pixely ani behaviorální analytiku. Turnstile využívá technické bezpečnostní signály; zpracování popisují zásady poskytovatele."
+        ]
+      },
+      {
+        "id": "rights",
         "title": "Vaše práva",
-        "body": "Za podmínek GDPR můžete požadovat přístup, opravu, výmaz, omezení a přenositelnost, vznést námitku proti zpracování z oprávněného zájmu a kdykoli odvolat souhlas. Pište na níže uvedený kontakt. Může být nutné přiměřené ověření totožnosti. Obvyklá lhůta odpovědi je jeden měsíc; zákonné prodloužení musí být vysvětleno."
+        "paragraphs": [
+          "Za podmínek a s omezeními stanovenými GDPR máte níže uvedená práva. Uplatnit je můžete na kontaktním e-mailu pro ochranu soukromí. V přiměřeném rozsahu můžeme ověřit vaši totožnost.",
+          "Odpovídáme bez zbytečného odkladu, zpravidla do jednoho měsíce. Pokud GDPR umožňuje prodloužení lhůty, budeme vás o tom do jednoho měsíce informovat a sdělíme důvod. Odvolání souhlasu nemá vliv na zákonnost předchozího zpracování."
+        ]
       },
       {
-        "title": "Stížnosti",
-        "body": "Stížnost můžete podat Úřadu pro ochranu osobních údajů (ÚOOÚ), na který odkazujeme níže, nebo jinému příslušnému dozorovému úřadu."
+        "id": "authority",
+        "title": "Dozorový úřad",
+        "paragraphs": [
+          "Pokud se domníváte, že vaše údaje zpracováváme v rozporu s právními předpisy, můžete podat stížnost Úřadu pro ochranu osobních údajů (ÚOOÚ) nebo jinému příslušnému dozorovému úřadu."
+        ]
       },
       {
-        "title": "Cookies a obdobné technologie",
-        "body": "Aplikace nenastavuje vlastní cookies. localStorage uchovává vámi zvolené téma (theme), jazyk (preferredLocale) a volbu atribuce (plainlysmart.attribution-consent.v1) do změny nebo vymazání. Pouze po přijetí ukládá sessionStorage parametry kampaně (plainlysmart.utm) po dobu relace karty. Odvolání atribuci vymaže a zabrání jejímu připojení k dalším dotazům. Audit kódu nenašel analytickou knihovnu, reklamní pixel ani vložená média třetích stran. Turnstile zpracovává technické bezpečnostní signály; informace poskytovatele jsou níže. Cookies hostingu a konfiguraci Turnstile je nutné ověřit v nasazeném prostředí. Volbu atribuce změníte v patičce nebo vymazáním úložiště prohlížeče."
+        "id": "automation",
+        "title": "Automatizované rozhodování",
+        "paragraphs": [
+          "Údaje získané prostřednictvím tohoto webu nepoužíváme k rozhodování založenému výhradně na automatizovaném zpracování, včetně profilování, které by pro vás mělo právní nebo obdobně významné účinky. Automatické kontroly botů chrání formulář před zneužitím."
+        ]
       },
       {
-        "title": "Změny zásad",
-        "body": "Změny zveřejňujeme zde s novým datem aktualizace. Podstatné změny mohou vyžadovat další oznámení nebo nový souhlas. Zásady zůstávají návrhem do doplnění údajů správce a právních rozhodnutí."
+        "id": "updates",
+        "title": "Změny těchto zásad",
+        "paragraphs": [
+          "Tyto zásady můžeme aktualizovat při změně služeb, zpracování údajů nebo právních požadavků. Aktuální znění je vždy na této stránce společně s datem poslední aktualizace."
+        ]
       }
+    ],
+    "intro": "V PlainlySmart respektujeme vaše soukromí. Tyto zásady vysvětlují, jaké osobní údaje zpracováváme při návštěvě webu nebo při kontaktování, proč je zpracováváme, jak dlouho je uchováváme a jaká máte práva.",
+    "controller": "Správcem osobních údajů je {name}, IČO {ico}, podnikající pod značkou {brand}. Sídlo je uvedeno níže a na stránce <legal>Právní informace</legal>. S dotazy nebo pro uplatnění práv nás kontaktujte na níže uvedeném e-mailu.",
+    "purposeHeaders": [
+      "Účel",
+      "Osobní údaje",
+      "Právní základ"
+    ],
+    "purposes": [
+      [
+        "Vyžádané kroky k možné spolupráci",
+        "Kontaktní údaje, dotaz a korespondence",
+        "Čl. 6 odst. 1 písm. b) GDPR, pouze pokud je zpracování nezbytné pro kroky před uzavřením smlouvy na vaši žádost."
+      ],
+      [
+        "Ostatní obchodní korespondence",
+        "Kontaktní údaje a komunikace",
+        "Čl. 6 odst. 1 písm. f): oprávněný zájem na vyřizování a správě obchodní komunikace."
+      ],
+      [
+        "Zabezpečení webu a API",
+        "Technické signály, výsledek ověření a metadata požadavků",
+        "Čl. 6 odst. 1 písm. f): oprávněný zájem na ochraně webu, infrastruktury a komunikace před zneužitím a spamem."
+      ],
+      [
+        "Volitelná atribuce kampaní",
+        "Parametry kampaně spojené s dotazem",
+        "Předchozí povolení volitelného úložiště a souhlas podle čl. 6 odst. 1 písm. a) pro související zpracování osobních údajů. Souhlas je dobrovolný a odvolatelný."
+      ],
+      [
+        "Příslušné zákonné povinnosti",
+        "Relevantní smluvní, účetní nebo daňové záznamy",
+        "Čl. 6 odst. 1 písm. c), pouze pokud se na záznam vztahuje konkrétní zákonná povinnost."
+      ]
+    ],
+    "storageHeaders": [
+      "Úložiště",
+      "Účel / poskytovatel",
+      "Kategorie",
+      "Doba uchování"
+    ],
+    "storage": [
+      [
+        "theme",
+        "Volba vzhledu / PlainlySmart",
+        "Vyžádané nastavení",
+        "localStorage: do změny nebo vymazání; bez nastavené expirace"
+      ],
+      [
+        "preferredLocale",
+        "Volba jazyka / PlainlySmart",
+        "Vyžádané nastavení",
+        "localStorage: do změny nebo vymazání; bez nastavené expirace"
+      ],
+      [
+        "plainlysmart.attribution-consent.v1",
+        "Zapamatování volby atribuce / PlainlySmart",
+        "Volba soukromí",
+        "localStorage: do změny nebo vymazání; bez nastavené expirace"
+      ],
+      [
+        "plainlysmart.utm",
+        "Parametry kampaně / PlainlySmart",
+        "Volitelná atribuce až po povolení",
+        "sessionStorage: po dobu relace karty nebo do odvolání souhlasu. Prohlížeč může relaci obnovit."
+      ]
+    ],
+    "rights": [
+      "Požadovat přístup k osobním údajům.",
+      "Požadovat opravu nepřesných údajů.",
+      "Požadovat výmaz.",
+      "Požadovat omezení zpracování.",
+      "Získat nebo přenést údaje, pokud se uplatní přenositelnost.",
+      "Vznést námitku proti zpracování založenému na oprávněných zájmech.",
+      "Kdykoli odvolat souhlas, pokud je na něm zpracování založeno.",
+      "Podat stížnost příslušnému dozorovému úřadu."
     ]
   },
   "consent": {

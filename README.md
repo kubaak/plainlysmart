@@ -99,7 +99,7 @@ The form collects:
 - email
 - optional phone number
 - project/message description
-- optional marketing consent
+- no newsletter signup (disabled until consent recording and unsubscribe handling are verified)
 
 There is no company field.
 
@@ -155,7 +155,6 @@ A successful frontend submission sends JSON similar to:
   "email": "jane@example.com",
   "phone": "+420123456789",
   "message": "We need a customer portal.",
-  "marketingConsent": false,
   "utmSource": "google",
   "utmMedium": "cpc",
   "utmCampaign": "software",
@@ -271,7 +270,7 @@ Run:
 npm test
 ```
 
-The test suite builds the static export and serves it locally automatically.
+Build first with npm run build. The test suite serves the existing static export; it does not rebuild it.
 
 It checks `/`, `/en`, and `/cs` for console errors and uncaught JavaScript exceptions during loading and basic interaction.
 
@@ -283,7 +282,7 @@ On other platforms, install Chromium once with:
 npx playwright install chromium
 ```
 
-Failed tests retain a Playwright trace under:
+Request traces explicitly with --trace retain-on-failure. Failure artifacts are under:
 
 ```text
 test-results/
@@ -353,7 +352,6 @@ Responsibilities:
 - `src/components/booking.tsx` — consultation dialog and contact form
 - `src/components/Turnstile.tsx` — Cloudflare Turnstile integration
 - `src/lib/contact-tracking.ts` — UTM capture and session persistence
-- `src/lib/booking.ts` — consultation/capacity configuration
 - `src/app/globals.css` — responsive visual system with Tailwind CSS 4
 - `src/i18n` — locale routing and next-intl request configuration
 - `messages/en.json` — English content, metadata, form labels and validation messages

@@ -3,9 +3,17 @@ import en from "../messages/en.json" with { type: "json" };
 import cs from "../messages/cs.json" with { type: "json" };
 import { business } from "../src/lib/business";
 
+test.beforeEach(async ({page}) => {
+  await page.route("https://challenges.cloudflare.com/**", route => route.fulfill({
+    contentType: "application/javascript",
+    body: "window.turnstile = {render: () => 'widget', remove: () => {}};",
+  }));
+});
+
 for (const [locale, m] of Object.entries({en, cs})) {
   test(locale + ": legal navigation, disclosure and policy metadata", async ({page}) => {
     await page.goto("/" + locale);
+    await expect(page.locator("main")).not.toContainText(/Money-back guarantee|Záruka vrácení peněz|last 3|poslední 3/);
     const footer = page.locator("footer");
     await expect(footer.locator(".business-identity")).toHaveCount(0);
     for (const value of [business.legalName, business.ico, business.address, business.registry]) {
@@ -17,13 +25,18 @@ for (const [locale, m] of Object.entries({en, cs})) {
     const disclosure = page.locator("dialog .privacy-disclosure");
     await expect(disclosure).toBeVisible();
     await expect(disclosure.locator("a")).toHaveAttribute("href", "/" + locale + "/privacy");
-    await expect(page.locator('dialog input[type="checkbox"]')).toHaveCount(1);
+    await expect(page.locator('dialog input[type="checkbox"]')).toHaveCount(0);
     await page.keyboard.press("Escape");
     await footer.getByRole("link", {name: m.legal.title}).first().click();
     await expect(page.getByRole("heading", {level: 1})).toHaveText(m.legal.title);
     await expect(page).toHaveTitle(m.legal.title + " | PlainlySmart");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://plainlysmart.com/" + locale + "/privacy");
     await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", m.legal.description);
+    await expect(page.locator("main")).not.toContainText(/draft|to be supplied|must confirm|must decide|před zveřejněním|návrh zásad/i);
+    await expect(page.locator("main dd")).toHaveText([business.legalName, business.ico, business.address, business.registry]);
+    await expect(page.locator("main table")).toHaveCount(2);
+    await expect(page.locator("main #rights").locator("..").locator("li")).toHaveCount(8);
+    await expect(page.locator("#purposes + p + .legal-table-scroll tbody tr")).toHaveCount(5);
     await expect(page.locator("main section h2")).toHaveCount(m.legal.sections.length);
     await page.getByRole("button", {name: locale.toUpperCase(), exact: true}).click();
     const target = locale === "en" ? "cs" : "en";
@@ -80,12 +93,13 @@ test("attribution defaults off, accepts, withdraws and survives reload", async (
 for (const width of [360, 1440]) {
   test("legal layout at " + width, async ({page}) => {
     await page.setViewportSize({width, height: 900});
-    await page.goto("/cs/legal");
+    await page.goto("/cs/privacy");
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.getByRole("link", {name: cs.legal.home}).focus();
     await expect(page.getByRole("link", {name: cs.legal.home})).toBeFocused();
     await page.getByRole("button", {name: cs.nav.darkTheme}).click();
     await expect(page.locator("html")).toHaveClass(/dark/);
+    await page.screenshot({path: `test-results/privacy-${width}-dark.png`, fullPage: true});
   });
 }
 

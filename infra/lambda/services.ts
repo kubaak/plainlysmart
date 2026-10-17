@@ -22,12 +22,11 @@ async function brevo(path: string, apiKey: string, body: unknown) {
 export async function upsertBrevoContact(data: ContactRequest, apiKey: string, config: Config) {
   await brevo("contacts", apiKey, {
     email: data.email, updateEnabled: true,
-    listIds: [config.leadsListId, ...(data.marketingConsent ? [config.newsletterListId] : [])],
+    listIds: [config.leadsListId],
     attributes: {
       NAME: data.name, COMPANY: data.company, PHONE: data.phone, MESSAGE: data.message,
       UTM_SOURCE: data.utmSource, UTM_MEDIUM: data.utmMedium, UTM_CAMPAIGN: data.utmCampaign,
       UTM_CONTENT: data.utmContent, UTM_TERM: data.utmTerm, LOCALE: data.locale,
-      MARKETING_CONSENT: data.marketingConsent,
     },
   });
 }

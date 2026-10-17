@@ -46,8 +46,6 @@ function createContactSchema(t: ReturnType<typeof useTranslations<"contact">>) {
       .trim()
       .min(1, t("validation.required"))
       .max(4000, t("validation.maxLength", { max: 4000 })),
-
-    marketingConsent: z.boolean(),
   });
 }
 
@@ -206,7 +204,6 @@ function EmailForm({ onSuccess }: { onSuccess: () => void }) {
       email: "",
       phone: "",
       message: "",
-      marketingConsent: false,
     },
   });
 
@@ -269,11 +266,6 @@ function EmailForm({ onSuccess }: { onSuccess: () => void }) {
     <div className="contact-form">
       <form noValidate aria-busy={isSubmitting} onSubmit={handleSubmit(onSubmit)}>
         <ContactFields register={register} errors={errors} />
-
-        <label className="contact-consent">
-          <input {...register("marketingConsent")} type="checkbox" />
-          {t("marketingConsent")}
-        </label>
 
         {configured && (
           <Turnstile onToken={setToken} onError={verificationError} generation={generation} locale={locale} />

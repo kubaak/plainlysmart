@@ -1,6 +1,6 @@
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { getTranslations } from "next-intl/server";
-import { ArrowRight, Check, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { Eyebrow } from "./Eyebrow";
 import type { ContentItem as Item } from "./types";
 
@@ -37,10 +37,6 @@ export async function ProcessSection() {
           {t("process.note")}
         </p>
         <p className="timing-note">{t("process.timing")}</p>
-        <p className="money-back-guarantee process-guarantee">
-          <ShieldCheck size={20} aria-hidden="true" />
-          {t("process.guarantee")}
-        </p>
       </div>
     </section>
   );

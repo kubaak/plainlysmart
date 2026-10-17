@@ -4,7 +4,6 @@ export interface ContactRequest {
   message: string;
   company?: string;
   phone?: string;
-  marketingConsent: boolean;
   turnstileToken: string;
   locale: "en" | "cs";
   utmSource?: string;
@@ -31,12 +30,14 @@ export function validateContactRequest(input: unknown): ContactRequest {
   const email = field("email", 200, true).toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("INVALID_REQUEST");
   if (data.locale !== undefined && data.locale !== "en" && data.locale !== "cs") throw new Error("INVALID_REQUEST");
+  // Cached clients may still send this optional boolean. Validate its wire type,
+  // but discard it: contact submission must never create a newsletter subscription.
   if (data.marketingConsent !== undefined && typeof data.marketingConsent !== "boolean") throw new Error("INVALID_REQUEST");
   return {
     name: field("name", 120, true), email, message: field("message", 4000, true, true),
     company: field("company", 200), phone: field("phone", 50),
     turnstileToken: field("turnstileToken", 2048, true),
-    marketingConsent: data.marketingConsent === true, locale: data.locale ?? "en",
+    locale: data.locale ?? "en",
     utmSource: field("utmSource", 200), utmMedium: field("utmMedium", 200),
     utmCampaign: field("utmCampaign", 200), utmContent: field("utmContent", 200), utmTerm: field("utmTerm", 200),
   };

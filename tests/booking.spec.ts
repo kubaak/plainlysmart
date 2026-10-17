@@ -21,7 +21,7 @@ for (const [locale, m] of Object.entries({ en, cs })) {
     await trigger.click();
     const dialog = page.getByRole("dialog");
     await expect(dialog.getByRole("heading", { name: m.contact.dialogTitle })).toBeVisible();
-    await expect(dialog.locator("input, textarea")).toHaveCount(5);
+    await expect(dialog.locator("input, textarea")).toHaveCount(4);
     const name = dialog.locator('input[autocomplete="name"]');
     const email = dialog.locator('input[type="email"]');
     const phone = dialog.getByLabel(m.contact.phone);
@@ -89,7 +89,6 @@ test("failed request retains draft, refreshes verification, blocks duplicate sub
   await dialog.getByLabel(en.contact.name, { exact: true }).fill("  Jane  ");
   await dialog.getByLabel(en.contact.emailLabel).fill("jane@example.com");
   await dialog.getByLabel(en.contact.message).fill("Please help with a project");
-  await dialog.getByLabel(en.contact.marketingConsent).check();
   const submit = dialog.getByRole("button", { name: en.contact.submit });
   await submit.click();
   await expect(dialog.getByRole("button", { name: en.contact.submitting })).toBeDisabled();
@@ -99,7 +98,8 @@ test("failed request retains draft, refreshes verification, blocks duplicate sub
   await submit.click();
   await expect(dialog.getByRole("status")).toHaveText(en.contact.sent);
   expect(attempts).toBe(2);
-  expect(payload).toMatchObject({ name: "Jane", marketingConsent: true, locale: "en", turnstileToken: "test-token", utmSource: "campaign", utmMedium: "email", utmCampaign: "launch", utmContent: "cta", utmTerm: "software" });
+  expect(payload).not.toHaveProperty("marketingConsent");
+  expect(payload).toMatchObject({ name: "Jane", locale: "en", turnstileToken: "test-token", utmSource: "campaign", utmMedium: "email", utmCampaign: "launch", utmContent: "cta", utmTerm: "software" });
 });
 
 for (const width of [360, 768, 1440]) {
@@ -111,5 +111,33 @@ for (const width of [360, 768, 1440]) {
     await expect(dialog.getByLabel(cs.contact.phone)).toBeVisible();
     expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  });
+}
+
+for (const [locale, m] of Object.entries({en, cs})) {
+  test(`${locale}: rejected attribution permits inquiry without campaign data or subscription`, async ({page}) => {
+    let payload: Record<string, unknown> = {};
+    await page.route("**/contact", route => {
+      payload = route.request().postDataJSON();
+      return route.fulfill({json: {success: true}});
+    });
+    await page.addInitScript(() => sessionStorage.setItem("plainlysmart.utm", '{"utmSource":"legacy"}'));
+    await page.goto(`/${locale}?utm_source=unwanted`);
+    await page.getByRole("button", {name: m.consent.preferences}).click();
+    await page.getByRole("button", {name: m.consent.reject}).click();
+    expect(await page.evaluate(() => sessionStorage.getItem("plainlysmart.utm"))).toBeNull();
+    await page.locator(".hero-buttons button").click();
+    const dialog = page.getByRole("dialog");
+    test.skip(await dialog.getByRole("alert").isVisible(), "Contact build configuration is required");
+    await expect(dialog.locator('input[type="checkbox"]')).toHaveCount(0);
+    await dialog.getByLabel(m.contact.name, {exact: true}).fill("Jane");
+    await dialog.getByLabel(m.contact.emailLabel).fill("jane@example.com");
+    await dialog.getByLabel(m.contact.message).fill("Please reply to my inquiry");
+    await dialog.getByRole("button", {name: m.contact.submit}).click();
+    await expect(dialog.getByRole("status")).toHaveText(m.contact.sent);
+    expect(payload).not.toHaveProperty("marketingConsent");
+    for (const key of ["utmSource", "utmMedium", "utmCampaign", "utmContent", "utmTerm"]) {
+      expect(payload).not.toHaveProperty(key);
+    }
   });
 }

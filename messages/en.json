@@ -144,7 +144,6 @@
     ]
   },
   "process": {
-    "guarantee": "Money-back guarantee",
     "eyebrow": "HOW IT WORKS",
     "title": "From “what if” to working.",
     "description": "You bring the business problem. We’ll bring the technical know-how.",
@@ -244,7 +243,6 @@
       "email": "Enter a valid email address.",
       "maxLength": "Use no more than {max} characters."
     },
-    "marketingConsent": "I would like to receive PlainlySmart news by email (optional).",
     "submitting": "Sending…",
     "error": "We couldn’t complete your submission. Please try again or email us directly.",
     "unavailable": "The form is currently unavailable. Please email us directly.",
@@ -268,8 +266,6 @@
     "ico": "IČO",
     "address": "Registered address",
     "registry": "Business registry",
-    "missing": "[To be supplied]",
-    "draft": "Draft — complete controller details and legal decisions before publication.",
     "effective": "Effective date",
     "updated": "Last updated",
     "privacyContact": "Privacy contact",
@@ -278,49 +274,165 @@
     "turnstile": "Cloudflare Turnstile Privacy Notice",
     "sections": [
       {
-        "title": "Data controller",
-        "body": "The controller operates under the PlainlySmart brand. Its identity and privacy contact details appear below. Missing identity details must be supplied before publication."
+        "id": "information",
+        "title": "Information we collect",
+        "paragraphs": [
+          "When you contact us, we process your name, email address and message, and any optional telephone number you provide. Our API also accepts an optional company name. We process related correspondence, your chosen language and information reasonably needed to respond.",
+          "Hosting and security providers process technical information such as IP addresses, browser and device characteristics and request metadata. If you separately enable campaign attribution, campaign parameters can accompany your inquiry. Please avoid sending sensitive personal information unless necessary and specifically requested."
+        ]
       },
       {
-        "title": "Information collected",
-        "body": "The form collects name, email, message, optional phone, language and optional newsletter choice. The API also accepts an optional company name. With separate attribution permission, campaign parameters accompany your inquiry. Please do not send sensitive personal data."
-      },
-      {
+        "id": "purposes",
         "title": "Purposes and legal bases",
-        "body": "Inquiry handling may rely on Article 6(1)(b) GDPR for steps you request before a contract, or Article 6(1)(f) for other correspondence. Security may rely on legitimate interests under Article 6(1)(f). The controller must confirm these bases and assess its interests. Optional newsletters rely on separate consent under Article 6(1)(a), which you can withdraw by contacting us without affecting earlier lawful processing. Campaign attribution requires separate optional permission. Neither choice is required to contact us."
+        "paragraphs": [
+          "We choose the legal basis according to the purpose of each processing activity. Legitimate interests must not override your rights and freedoms. You may object to processing based on legitimate interests."
+        ]
       },
       {
-        "title": "Technical information and security",
-        "body": "Hosting and security providers may process IP addresses, browser/device information and request metadata. Cloudflare Turnstile runs when the form is opened to prevent automated abuse; the backend verifies its token. Application logs contain request identifiers and outcomes, without intentionally recording contact content, email addresses, phone numbers or tokens."
+        "id": "contact",
+        "title": "Contact form and communications",
+        "paragraphs": [
+          "We use your inquiry to respond, discuss possible cooperation and arrange a consultation where appropriate. The form requires your name, email address and message; telephone and company information are optional. Without the required information, we cannot process the form submission. You can also contact us by email.",
+          "Submitting an inquiry does not subscribe you to marketing. Newsletter signup is not currently offered on this website. We send an automatic receipt confirmation as a transactional communication, without a marketing subscription."
+        ]
       },
       {
-        "title": "Recipients and providers",
-        "body": "Data passes through AWS API Gateway and Lambda to Brevo. Brevo stores the contact, sends an internal notification to our inbox and sends you a confirmation. Cloudflare provides Turnstile. Hosting and mailbox providers also handle technical data or correspondence. Contracting entities, processor/controller roles and agreements require verification. This workflow does not use automated decision-making with legal or similarly significant effects."
+        "id": "providers",
+        "title": "Service providers and recipients",
+        "paragraphs": [
+          "Amazon Web Services (AWS) operates the contact API, serverless processing and application/API logs. Brevo stores inquiry contact records, including the message and any submitted campaign parameters, and delivers the notification to our business inbox and the confirmation to you. Contact records do not have an automatic expiry in this integration.",
+          "Cloudflare Turnstile protects the contact form against automated abuse. It processes technical signals when the configured form opens. Cloudflare acts as a processor for protecting this website and as a controller for improving its bot detection, as described in its notice. Website hosting and business email providers also process website requests and correspondence. Depending on the service and applicable terms, providers act as processors or independent controllers. We do not sell personal data."
+        ]
       },
       {
-        "title": "International transfers",
-        "body": "Providers may process data outside the EEA. Destinations and applicable safeguards, such as an adequacy decision or standard contractual clauses with necessary supplementary measures, must be verified against contracts and account settings. EU-only processing is not guaranteed. Contact us for details of applicable safeguards."
+        "id": "transfers",
+        "title": "Transfers outside the EEA",
+        "paragraphs": [
+          "Our technology providers operate internationally. Cloudflare, Inc. is based in the United States; its privacy policy describes international processing and transfer safeguards, including standard contractual clauses and adequacy mechanisms where applicable. Brevo describes database hosting in France, Germany and Belgium; this does not establish that all service activities take place exclusively in the EU.",
+          "International transfers require an applicable GDPR mechanism, such as an adequacy decision or standard contractual clauses with any necessary supplementary measures. Contact our privacy email for information about the safeguards applicable to your data and how to obtain a copy."
+        ]
       },
       {
-        "title": "Retention",
-        "body": "Infrastructure configures function and API logs for 30 days. Retention periods or specific deletion criteria for Brevo contacts, inbox copies, provider logs, backups and newsletter records have not yet been approved. The controller must decide and publish them before finalizing this policy. Data should only be kept as needed for its stated purpose and applicable obligations."
+        "id": "retention",
+        "title": "How long we keep information",
+        "paragraphs": [
+          "We keep personal data only as long as necessary for the purposes described here. Inquiry records and related correspondence are kept while we handle the request and any follow-up, and are reviewed for deletion or anonymisation when no longer needed. Relevant client and project communications are kept during the relationship and subsequently where necessary to comply with specific legal obligations or establish, exercise or defend legal claims.",
+          "Accounting and tax documents are kept for the statutory period applicable to the document concerned. Application and API log groups are configured for 30 days. Provider delivery logs and backups have their own retention processes; deletion from active records does not imply immediate erasure from backups. Browser storage lifetimes are listed below."
+        ]
       },
       {
+        "id": "storage",
+        "title": "Cookies and browser storage",
+        "paragraphs": [
+          "We use browser storage to remember requested language, appearance and privacy choices. Optional campaign attribution stays disabled until you accept it. Rejecting attribution does not affect browsing or submitting an inquiry. Change your choice at any time through Privacy preferences in the footer.",
+          "Withdrawal clears stored campaign information in this tab and prevents its inclusion in future inquiries. It does not erase campaign information already submitted; contact us to request deletion of that data. We do not use advertising pixels or behavioural analytics in this website implementation. Turnstile uses technical security signals; its provider notice explains the processing."
+        ]
+      },
+      {
+        "id": "rights",
         "title": "Your rights",
-        "body": "Under GDPR conditions you may request access, correction, erasure, restriction and portability, object to processing based on legitimate interests, and withdraw consent at any time. Write to the privacy contact below. Proportionate identity verification may be needed. Responses are normally due within one month; lawful extensions must be explained."
+        "paragraphs": [
+          "Subject to GDPR conditions and limitations, you have the rights listed below. Contact our privacy email to exercise them. We may verify your identity proportionately.",
+          "We respond without undue delay and normally within one month. Where GDPR permits an extension, we will inform you within that month and explain why. Withdrawal of consent does not affect processing lawfully carried out before withdrawal."
+        ]
       },
       {
-        "title": "Complaints",
-        "body": "You can complain to the Czech Office for Personal Data Protection (ÚOOÚ), linked below, or another competent supervisory authority."
+        "id": "authority",
+        "title": "Supervisory authority",
+        "paragraphs": [
+          "If you believe your data has been processed unlawfully, you may complain to the Czech Office for Personal Data Protection (Úřad pro ochranu osobních údajů, ÚOOÚ), or another competent supervisory authority."
+        ]
       },
       {
-        "title": "Cookies and similar technologies",
-        "body": "The application sets no first-party cookies. localStorage remembers your requested theme (theme), language (preferredLocale) and attribution choice (plainlysmart.attribution-consent.v1) until changed or cleared. Only with acceptance, sessionStorage stores campaign parameters (plainlysmart.utm) for the tab session. Withdrawal clears attribution and stops attaching it to future inquiries. No analytics library, advertising pixel or third-party media embed was found in the source audit. Turnstile processes technical security signals; see its provider notice below. Hosting cookies and Turnstile configuration require deployment verification. Change attribution preferences in the footer or clear browser storage."
+        "id": "automation",
+        "title": "Automated decision-making",
+        "paragraphs": [
+          "We do not use information collected through this website for solely automated decision-making, including profiling, that produces legal or similarly significant effects concerning you. Automated bot checks protect the form against abuse."
+        ]
       },
       {
-        "title": "Changes to this policy",
-        "body": "Updates are published here with a revised date. Material changes may need additional notice or renewed consent. This policy remains a draft until identity details and legal decisions are completed."
+        "id": "updates",
+        "title": "Updates to this policy",
+        "paragraphs": [
+          "We may update this policy to reflect changes in our services, processing or applicable requirements. The latest version is published on this page with its last update date."
+        ]
       }
+    ],
+    "intro": "PlainlySmart respects your privacy. This policy explains what personal data we collect when you visit our website or contact us, why we process it, how long we keep it and what rights you have.",
+    "controller": "The controller is {name}, IČO {ico}, operating under the {brand} brand. The registered business address is shown below and on our <legal>Legal Information page</legal>. For questions or to exercise your rights, use the privacy email below.",
+    "purposeHeaders": [
+      "Purpose",
+      "Personal data",
+      "Legal basis"
+    ],
+    "purposes": [
+      [
+        "Requested steps towards cooperation",
+        "Contact details, inquiry and correspondence",
+        "Article 6(1)(b) GDPR, only where necessary for pre-contractual steps at your request."
+      ],
+      [
+        "Other business correspondence",
+        "Contact details and correspondence",
+        "Article 6(1)(f): legitimate interest in answering and managing business communications."
+      ],
+      [
+        "Website and API security",
+        "Technical signals, verification result and request metadata",
+        "Article 6(1)(f): legitimate interest in protecting the website, infrastructure and communications from abuse and spam."
+      ],
+      [
+        "Optional campaign attribution",
+        "Campaign parameters linked to your inquiry",
+        "Prior permission for optional browser storage and consent under Article 6(1)(a) for related personal-data processing. Consent is optional and withdrawable."
+      ],
+      [
+        "Applicable legal obligations",
+        "Relevant contractual, accounting or tax records",
+        "Article 6(1)(c), only where a specific obligation applies to the record."
+      ]
+    ],
+    "storageHeaders": [
+      "Storage",
+      "Purpose / provider",
+      "Category",
+      "Lifetime"
+    ],
+    "storage": [
+      [
+        "theme",
+        "Appearance preference / PlainlySmart",
+        "Requested preference",
+        "localStorage: until changed or cleared; no configured expiry"
+      ],
+      [
+        "preferredLocale",
+        "Language preference / PlainlySmart",
+        "Requested preference",
+        "localStorage: until changed or cleared; no configured expiry"
+      ],
+      [
+        "plainlysmart.attribution-consent.v1",
+        "Remember attribution choice / PlainlySmart",
+        "Privacy preference",
+        "localStorage: until changed or cleared; no configured expiry"
+      ],
+      [
+        "plainlysmart.utm",
+        "Campaign parameters / PlainlySmart",
+        "Optional attribution, only after acceptance",
+        "sessionStorage: tab session, or earlier withdrawal. Browsers may restore a session."
+      ]
+    ],
+    "rights": [
+      "Access your personal data.",
+      "Correct inaccurate data.",
+      "Request erasure.",
+      "Request restriction of processing.",
+      "Receive or transfer data where portability applies.",
+      "Object to processing based on legitimate interests.",
+      "Withdraw consent at any time where processing relies on consent.",
+      "Lodge a complaint with a competent supervisory authority."
     ]
   },
   "consent": {

@@ -51,7 +51,11 @@ test("small HTTP proxy API with scoped secrets access and logging", () => {
   template.resourceCountIs("AWS::EC2::VPC", 0);
   template.hasResourceProperties("AWS::Lambda::Function", { Runtime: "nodejs24.x" });
   template.hasResourceProperties("AWS::ApiGatewayV2::Api", {
-    ProtocolType: "HTTP", CorsConfiguration: { AllowMethods: ["POST"], AllowHeaders: ["content-type"], AllowOrigins: Match.arrayWith(["https://plainlysmart.com", "http://localhost:3000"]) },
+    ProtocolType: "HTTP", CorsConfiguration: {
+      AllowMethods: ["POST"], AllowHeaders: ["content-type"], MaxAge: 3600,
+      AllowOrigins: ["https://plainlysmart.com", "https://www.plainlysmart.com", "http://localhost:3000",
+        "http://127.0.0.1:3000", "http://127.0.0.1:4173"],
+    },
   });
   template.hasResourceProperties("AWS::ApiGatewayV2::Route", { RouteKey: "POST /contact" });
   template.hasResourceProperties("AWS::ApiGatewayV2::Integration", { IntegrationType: "AWS_PROXY", PayloadFormatVersion: "2.0" });
