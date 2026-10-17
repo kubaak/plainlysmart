@@ -4,6 +4,10 @@ import cs from "../messages/cs.json" with { type: "json" };
 
 for (const route of ["/", "/en", "/cs"]) {
   test(`${route} loads without browser errors`, async ({ page }) => {
+    await page.route("https://challenges.cloudflare.com/**", route => route.fulfill({
+      contentType: "application/javascript",
+      body: "window.turnstile = { render: () => 'widget', remove: () => {} };",
+    }));
     const messages = route === "/cs" ? cs : en;
     const errors: string[] = [];
     // Register before navigation to capture startup and hydration failures.

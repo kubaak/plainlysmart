@@ -8,6 +8,7 @@ import { z } from "zod";
 import { ArrowUpRight, X } from "lucide-react";
 import { motion } from "motion/react";
 
+import { Link } from "@/i18n/navigation";
 import { Turnstile } from "./Turnstile";
 import { captureUtm } from "@/lib/contact-tracking";
 import { useEntrance, useFeedback } from "@/components/motion/Reveal";
@@ -282,6 +283,8 @@ function EmailForm({ onSuccess }: { onSuccess: () => void }) {
           {t(isSubmitting ? "submitting" : "submit")}
           <ArrowUpRight size={17} />
         </button>
+
+        <p className="privacy-disclosure">{t.rich("privacyNotice", { policy: chunks => <Link prefetch={false} className="text-link" href="/privacy">{chunks}</Link> })}</p>
 
         {(!configured || status === "error") && (
           <p role="alert" className="form-status">

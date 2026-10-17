@@ -1,6 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { ArrowUpRight, ArrowUp } from "lucide-react";
 import { BrandName } from "@/components/BrandName";
+import { PrivacyPreferences } from "@/components/PrivacyPreferences";
+import { Link } from "@/i18n/navigation";
+import { business } from "@/lib/business";
 import { BrandMark } from "@/components/BrandMark";
 
 /**
@@ -26,10 +29,13 @@ export async function HomeFooter({ locale }: { locale: string }) {
       </div>
       <div className="footer-bottom">
         <span>{t("footer.copyright", { year: new Date().getFullYear() })}</span>
-        <a href={`mailto:${t("contact.email")}`}>
-          {t("contact.email")}
+        <a href={`mailto:${business.email}`}>
+          {business.email}
           <ArrowUpRight size={13} />
         </a>
+        <Link prefetch={false} href="/legal" locale={locale}>{t("legalInfo.title")}</Link>
+        <Link prefetch={false} href="/privacy" locale={locale}>{t("legal.title")}</Link>
+        <PrivacyPreferences />
       </div>
     </footer>
   );

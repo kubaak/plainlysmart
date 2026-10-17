@@ -12,7 +12,7 @@ export function LocaleEntry() {
     const locale =
       readPreferredLocale() ??
       resolvePreferredLocale(navigator.languages?.length ? navigator.languages : [navigator.language]);
-    router.replace(getPathname({ href: "/", locale }));
+    router.replace(getPathname({ href: "/", locale }) + window.location.search + window.location.hash);
   }, [router]);
   return (
     <main className="flex min-h-screen items-center justify-center">

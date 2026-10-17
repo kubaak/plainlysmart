@@ -79,8 +79,9 @@ test("failed request retains draft, refreshes verification, blocks duplicate sub
     await new Promise(resolve => setTimeout(resolve, 250));
     await route.fulfill({ status: attempts === 1 ? 502 : 200, json: attempts === 1 ? { success: false, error: "SERVICE_UNAVAILABLE" } : { success: true } });
   });
+  await page.addInitScript(() => localStorage.setItem("plainlysmart.attribution-consent.v1", "accepted"));
   await page.goto("/?utm_source=campaign&utm_medium=email&utm_campaign=launch&utm_content=cta&utm_term=software");
-  await page.waitForURL(/\/(en|cs)$/);
+  await page.waitForURL(/\/(en|cs)\?utm_source=/);
   await page.goto("/en");
   await page.locator(".hero-buttons button").click();
   const dialog = page.getByRole("dialog");

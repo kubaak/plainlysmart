@@ -14,6 +14,21 @@ const storageKey = "plainlysmart.utm";
 const maxValueLength = 200;
 
 const sessionValues: UtmValues = {};
+const consentKey = "plainlysmart.attribution-consent.v1";
+export function readAttributionConsent(): boolean | undefined {
+  try {
+    const value = localStorage.getItem(consentKey);
+    return value === "accepted" ? true : value === "rejected" ? false : undefined;
+  } catch { return undefined; }
+}
+function clearAttribution() {
+  for (const key of Object.keys(sessionValues)) delete sessionValues[key as UtmField];
+  try { sessionStorage.removeItem(storageKey); } catch { /* Storage can be blocked. */ }
+}
+export function setAttributionConsent(accepted: boolean) {
+  try { localStorage.setItem(consentKey, accepted ? "accepted" : "rejected"); } catch { /* Fail closed. */ }
+  if (!accepted) clearAttribution();
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -24,6 +39,10 @@ export function captureUtm(): UtmValues {
     return {};
   }
 
+  if (readAttributionConsent() !== true) {
+    clearAttribution();
+    return {};
+  }
   restoreStoredValues();
   captureUrlValues();
   persistValues();

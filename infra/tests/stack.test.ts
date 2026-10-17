@@ -113,3 +113,17 @@ test("development does not claim the production domain and imported certificates
   imported.resourceCountIs("AWS::CertificateManager::Certificate", 0);
   imported.resourceCountIs("AWS::ApiGatewayV2::ApiMapping", 1);
 });
+
+
+test("privacy controls retain minimal logs and existing throttles", () => {
+  const template = Template.fromStack(new ContactStack(new App(), "PrivacyTest"));
+  for (const log of Object.values(template.findResources("AWS::Logs::LogGroup"))) {
+    assert.equal(log.Properties.RetentionInDays, 30);
+  }
+  template.hasResourceProperties("AWS::ApiGatewayV2::Stage", {
+    DefaultRouteSettings: {ThrottlingRateLimit: 5, ThrottlingBurstLimit: 10},
+  });
+  const stage = Object.values(template.findResources("AWS::ApiGatewayV2::Stage"))[0];
+  assert.deepEqual(Object.keys(JSON.parse(stage.Properties.AccessLogSettings.Format)).sort(),
+    ["integrationStatus", "latency", "requestId", "routeKey", "status"]);
+});

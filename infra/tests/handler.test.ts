@@ -103,3 +103,16 @@ test("network errors return sanitized failure", async () => {
 test("base64 API Gateway body supported", async () => {
   assert.equal((await handler({ ...event(), body: Buffer.from(JSON.stringify(valid)).toString("base64"), isBase64Encoded: true })).statusCode, 200);
 });
+
+
+test("logs never contain contact content, tokens or provider errors", async () => {
+  const entries: string[] = [];
+  mock.method(console, "info", (entry: string) => { entries.push(entry); });
+  await handler(event({...valid, phone: "+420123456789"}));
+  mock.method(globalThis, "fetch", async () => { throw new Error("private-provider-details"); });
+  await handler(event());
+  for (const entry of entries) {
+    assert.deepEqual(Object.keys(JSON.parse(entry)).sort(), ["outcome", "requestId"]);
+    assert.doesNotMatch(entry, /JANE@example|Help with our project|420123456789|fake-key|fake-secret|private-provider-details|"token"/);
+  }
+});
