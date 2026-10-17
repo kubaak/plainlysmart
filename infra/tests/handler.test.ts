@@ -11,8 +11,8 @@ let verification: Record<string, unknown>;
 beforeEach(() => {
   Object.assign(process.env, {
     CONTACT_SECRET_ARN: "test", BREVO_LEADS_LIST_ID: "1", BREVO_NEWSLETTER_LIST_ID: "2",
-    CONTACT_NOTIFICATION_EMAIL: "hello@plainlysmart.com", CONTACT_REPLY_TO_EMAIL: "hello@plainlysmart.com",
-    BREVO_SENDER_EMAIL: "hello@mail.plainlysmart.com", BREVO_SENDER_NAME: "PlainlySmart",
+    CONTACT_NOTIFICATION_EMAIL: "info@plainlysmart.com", CONTACT_REPLY_TO_EMAIL: "info@plainlysmart.com",
+    BREVO_SENDER_EMAIL: "info@mail.plainlysmart.com", BREVO_SENDER_NAME: "PlainlySmart",
     TURNSTILE_HOSTNAMES: "plainlysmart.com", BOOKING_URL: "https://example.com/book",
   });
   mock.method(SecretsManagerClient.prototype, "send", async () => ({ SecretString: JSON.stringify({ BREVO_API_KEY: "fake-key", TURNSTILE_SECRET_KEY: "fake-secret" }) }));
@@ -41,8 +41,8 @@ test("valid submission saves normalized lead then sends both emails", async () =
   assert.equal(calls.length, 4);
   assert.equal(calls[1].body.email, "jane@example.com");
   assert.equal((calls[1].body.attributes as Record<string, unknown>).NAME, "Jane");
-  assert.deepEqual(calls[2].body.to, [{ email: "hello@plainlysmart.com" }]);
-  assert.deepEqual(calls[3].body.replyTo, { email: "hello@plainlysmart.com" });
+  assert.deepEqual(calls[2].body.to, [{ email: "info@plainlysmart.com" }]);
+  assert.deepEqual(calls[3].body.replyTo, { email: "info@plainlysmart.com" });
 });
 for (const data of [{ ...valid, email: "bad" }, {}, { ...valid, name: " " }, { ...valid, message: "" }, { ...valid, turnstileToken: "" }, { ...valid, locale: "de" }, { ...valid, marketingConsent: "true" }, { ...valid, message: "a".repeat(4001) }, { ...valid, company: 12 }]) {
   test(`invalid submission: ${JSON.stringify(data).slice(0, 100)}`, async () => {

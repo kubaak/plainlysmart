@@ -1,5 +1,5 @@
 import * as path from "node:path";
-import { CfnOutput, CfnParameter, Duration, RemovalPolicy, Stack, type StackProps } from "aws-cdk-lib";
+import { CfnOutput, CfnParameter, Duration, RemovalPolicy, Stack, Tags, type StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as apigw from "aws-cdk-lib/aws-apigatewayv2";
 import { HttpLambdaIntegration } from "aws-cdk-lib/aws-apigatewayv2-integrations";
@@ -12,7 +12,15 @@ import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 
 export class ContactStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
-    super(scope, id, props);
+    const environment: unknown = scope.node.tryGetContext("stage") ?? "prod";
+    if (typeof environment !== "string" || environment.trim() !== environment || !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(environment) || environment.length > 32) {
+      throw new Error("stage must be 1-32 lowercase letters, digits or single separating hyphens, starting with a letter");
+    }
+    const prefix = `ps-${environment}-contact`;
+    super(scope, id, { ...props, stackName: prefix });
+    for (const [key, value] of Object.entries({ Project: "Plainlysmart", ProjectCode: "ps", Environment: environment, ManagedBy: "CDK" })) {
+      Tags.of(this).add(key, value);
+    }
     const parameter = (name: string, defaultValue?: string) =>
       new CfnParameter(this, name, {
         type: "String",
@@ -22,12 +30,14 @@ export class ContactStack extends Stack {
     const secretArn = parameter("ContactSecretArn");
     const secret = secretsmanager.Secret.fromSecretCompleteArn(this, "ContactSecret", secretArn);
     const functionLogs = new logs.LogGroup(this, "FunctionLogs", {
+      logGroupName: `/aws/lambda/${prefix}-handler`,
       retention: logs.RetentionDays.ONE_MONTH,
       removalPolicy: RemovalPolicy.DESTROY,
     });
     const role = new iam.Role(this, "ContactRole", { assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com") });
     functionLogs.grantWrite(role);
     const fn = new NodejsFunction(this, "ContactFunction", {
+      functionName: `${prefix}-handler`,
       entry: path.join(__dirname, "../lambda/handler.ts"),
       handler: "handler",
       depsLockFilePath: path.join(__dirname, "../package-lock.json"),
@@ -41,9 +51,9 @@ export class ContactStack extends Stack {
         CONTACT_SECRET_ARN: secret.secretArn,
         BREVO_LEADS_LIST_ID: parameter("BrevoLeadsListId"),
         BREVO_NEWSLETTER_LIST_ID: parameter("BrevoNewsletterListId"),
-        CONTACT_NOTIFICATION_EMAIL: parameter("ContactNotificationEmail", "hello@plainlysmart.com"),
-        CONTACT_REPLY_TO_EMAIL: parameter("ContactReplyToEmail", "hello@plainlysmart.com"),
-        BREVO_SENDER_EMAIL: parameter("BrevoSenderEmail", "hello@mail.plainlysmart.com"),
+        CONTACT_NOTIFICATION_EMAIL: parameter("ContactNotificationEmail", "info@plainlysmart.com"),
+        CONTACT_REPLY_TO_EMAIL: parameter("ContactReplyToEmail", "info@plainlysmart.com"),
+        BREVO_SENDER_EMAIL: parameter("BrevoSenderEmail", "info@mail.plainlysmart.com"),
         BREVO_SENDER_NAME: parameter("BrevoSenderName", "PlainlySmart"),
         BOOKING_URL: parameter("BookingUrl", ""),
         TURNSTILE_HOSTNAMES: parameter(
@@ -54,6 +64,7 @@ export class ContactStack extends Stack {
     });
     secret.grantRead(fn);
     const api = new apigw.HttpApi(this, "ContactApi", {
+      apiName: `${prefix}-api`,
       createDefaultStage: false,
       corsPreflight: {
         allowOrigins: [
@@ -74,6 +85,7 @@ export class ContactStack extends Stack {
       integration: new HttpLambdaIntegration("ContactIntegration", fn),
     });
     const accessLogs = new logs.LogGroup(this, "AccessLogs", {
+      logGroupName: `${prefix}-access-logs`,
       retention: logs.RetentionDays.ONE_MONTH,
       removalPolicy: RemovalPolicy.DESTROY,
     });

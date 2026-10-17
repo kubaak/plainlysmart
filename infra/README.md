@@ -76,6 +76,28 @@ In Cloudflare Turnstile, create a widget allowing `plainlysmart.com` and `www.pl
 
 ## Configuration
 
+### Resource naming and stage
+
+Explicit resource names use `ps-{stage}-{purpose}`. CDK context `stage` defaults to `prod`; select another environment with `-c stage=dev`. Values must be 1–32 lowercase letters/digits with single separating hyphens, starting with a letter. Keep the same stage on synth, diff, deploy and destroy. This deployment stage does not change the API Gateway `$default` stage or routes.
+
+The CloudFormation stack is `ps-prod-contact`, Lambda is `ps-prod-contact-handler`, HTTP API is `ps-prod-contact-api`, and access log group is `ps-prod-contact-access-logs`. Lambda logs use `/aws/lambda/ps-prod-contact-handler`. The CDK stack selector remains `PlainlySmartContact`; all construct IDs remain unchanged. IAM role names remain generated, as do CDK bootstrap asset bucket names.
+
+Stack tags propagate to supported resources: `Project=Plainlysmart`, `ProjectCode=ps`, `Environment={stage}`, and `ManagedBy=CDK`. The existing secret is imported by ARN, so CDK cannot rename or tag it. When provisioning a new external secret, name it `ps-{stage}-contact-secrets` and apply these tags separately; existing secrets and their ARNs remain valid.
+
+From `infra`, using the existing stack selector:
+
+```sh
+npm run synth -- PlainlySmartContact -c stage=prod
+npm run diff -- PlainlySmartContact -c stage=prod
+npm run deploy -- PlainlySmartContact -c stage=prod --parameters ContactSecretArn=YOUR_FULL_SECRET_ARN --parameters BrevoLeadsListId=YOUR_LEADS_ID --parameters BrevoNewsletterListId=YOUR_NEWSLETTER_ID --parameters TurnstileHostnames=plainlysmart.com,www.plainlysmart.com
+```
+
+### Existing deployment migration
+
+Previously the CloudFormation stack name defaulted to `PlainlySmartContact`. Changing it to `ps-prod-contact` creates a separate stack; CDK does not rename or migrate the existing stack. Confirm deployed state before deploying and plan endpoint/DNS cutover and retirement of the old stack. A custom domain already owned by the old stack cannot be created concurrently by the new stack; plan its transfer before deploying with that context. Imported secrets and certificates remain external.
+
+Within an existing stack, adding the explicit Lambda function name and both log group names requires replacement; the API display-name change updates in place. Log groups have `RemovalPolicy.DESTROY`, so replacement/deletion can lose existing logs; export any logs needed first. Construct IDs and resource logical IDs are preserved, but a new stack still creates new resources and an API endpoint. Changing `stage` also selects a separate stack with distinct names. Review `npm run diff -- PlainlySmartContact -c stage=prod` with credentials before deployment.
+
 Frontend variables are baked into the static build; rebuild/redeploy after changes:
 
 | Root `.env.local` / static hosting build variable | Value                                                                   |
@@ -146,3 +168,11 @@ Input fields are trimmed, length-limited and type-checked; locale defaults to En
 External requests have four-second deadlines. No provider calls are automatically retried. This deliberately small synchronous architecture cannot provide atomic delivery: if a lead saves but a later email fails, the API reports failure and the saved lead remains. A user retry upserts the contact but can duplicate an already sent email; a timeout can also have an ambiguous outcome. Use request IDs and stage logs to investigate. Brevo acceptance does not guarantee inbox delivery. Exactly-once submission or durable email retries would require additional state/infrastructure, which this stack intentionally omits.
 
 References: [AWS Node.js runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html), [Turnstile validation](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/), [Brevo contact upsert](https://developers.brevo.com/reference/create-contact), [Brevo transactional email](https://developers.brevo.com/reference/send-transac-email).
+
+# backlog
+
+Navigation links size 15
+add professional tags
+senior engineering => high level engineering
+build around you - weird icon
+mobile app tile text
